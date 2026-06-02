@@ -328,7 +328,16 @@
 
 <script>
 (function(){
-  var WORKER_URL = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
+  var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
+  var SHEET_ID    = "1vOa37Jr63T8ylzFAxO1Wri-3uvAkSm4OnFG9zvS5Cgo";
+  var SHEETS_BASE = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=";
+
+  // Mapeo curso key → nombre de solapa
+  var SOLAPAS = {
+    "1A":"1%C2%B0 A","1B":"1%C2%B0 B","2A":"2%C2%B0 A","2B":"2%C2%B0 B",
+    "3A":"3%C2%B0 A","3B":"3%C2%B0 B","4E":"4%C2%B0 Econom%C3%ADa","4S":"4%C2%B0 Sociales",
+    "5E":"5%C2%B0 Econom%C3%ADa","5S":"5%C2%B0 Sociales","6E":"6%C2%B0 Econom%C3%ADa","6S":"6%C2%B0 Sociales"
+  };
 
   var ESCALAS={
     "1A":{label:"1 A",min7:360,min10:540,desc:"6 min = 7  |  9 min = 10"},
@@ -403,15 +412,7 @@
     gi("btn-ir-seleccion").disabled=true;
     listaCompleta=[];
     gi("loading-box").style.display="block";
-    fetch(WORKER_URL + "?curso=" + cursoKey)
-      .then(function(r){ return r.json(); })
-      .then(function(data){
-        gi("loading-box").style.display="none";
-        if(!data.ok){alert("Error: "+data.error);return;}
-        listaCompleta=data.alumnos;
-        gi("btn-ir-seleccion").disabled=false;
-      })
-      .catch(function(e){gi("loading-box").style.display="none";alert("Error: "+e.message);});
+    cargarDesdeSheet(cursoKey);
   });
 
   gi("btn-ir-seleccion").addEventListener("click",function(){
@@ -439,6 +440,81 @@
     actualizarContador();
     hide("screen-setup");show("screen-seleccion");
   });
+
+  // Parsear respuesta JSONP de Google Sheets
+  function parseGviz(text) {
+    var json = text.replace(/^[^(]+\(/, "").replace(/\);?\s*$/, "");
+    return JSON.parse(json);
+  }
+
+  function cargarDesdeSheet(key) {
+    gi("loading-box").style.display = "block";
+    gi("btn-ir-seleccion").disabled = true;
+    listaCompleta = [];
+
+    var solapaAlumnos = SOLAPAS[key];
+    var urlAlumnos = SHEETS_BASE + solapaAlumnos + "&range=A5:A45";
+    var urlSalud   = SHEETS_BASE + "Registro%20de%20Salud" + "&range=C1:K400";
+
+    var alumnosData = null;
+    var saludData   = null;
+
+    function intentarCombinar() {
+      if (!alumnosData || !saludData) return;
+      gi("loading-box").style.display = "none";
+
+      // Armar mapa de salud
+      var saludMap = {};
+      var rows = saludData.table ? saludData.table.rows : [];
+      rows.forEach(function(row) {
+        if (!row.c || !row.c[0] || !row.c[0].v) return;
+        var nombre   = String(row.c[0].v).trim().toUpperCase().replace(/\s*\(N\)\s*/g,"").replace(/\s+/g," ");
+        var tieneVal = row.c[7] ? String(row.c[7].v||"").trim().toUpperCase() : "";
+        var obsVal   = row.c[8] ? String(row.c[8].v||"").trim() : "";
+        if (nombre) saludMap[nombre] = { tiene: tieneVal, obs: obsVal };
+      });
+
+      // Armar lista de alumnos con salud
+      var rowsA = alumnosData.table ? alumnosData.table.rows : [];
+      listaCompleta = [];
+      rowsA.forEach(function(row) {
+        if (!row.c || !row.c[0] || !row.c[0].v) return;
+        var nombre = String(row.c[0].v).trim();
+        if (!nombre) return;
+        var clave  = nombre.toUpperCase().replace(/\s*\(N\)\s*/g,"").replace(/\s+/g," ");
+        var salud  = saludMap[clave] || { tiene:"", obs:"" };
+        // Busqueda parcial si no matchea exacto
+        if (!saludMap[clave]) {
+          for (var k in saludMap) {
+            if (k.indexOf(clave) !== -1 || clave.indexOf(k) !== -1) {
+              salud = saludMap[k]; break;
+            }
+          }
+        }
+        listaCompleta.push({ nombre: nombre, tiene: salud.tiene, obs: salud.obs });
+      });
+
+      gi("btn-ir-seleccion").disabled = false;
+    }
+
+    // Fetch alumnos del curso
+    fetch(urlAlumnos)
+      .then(function(r){ return r.text(); })
+      .then(function(t){
+        alumnosData = parseGviz(t);
+        intentarCombinar();
+      })
+      .catch(function(e){ gi("loading-box").style.display="none"; alert("Error cargando alumnos: "+e.message); });
+
+    // Fetch registro de salud
+    fetch(urlSalud)
+      .then(function(r){ return r.text(); })
+      .then(function(t){
+        saludData = parseGviz(t);
+        intentarCombinar();
+      })
+      .catch(function(e){ gi("loading-box").style.display="none"; alert("Error cargando salud: "+e.message); });
+  }
 
   function actualizarContador(){
     var n=document.querySelectorAll(".sel-card.selected").length;
