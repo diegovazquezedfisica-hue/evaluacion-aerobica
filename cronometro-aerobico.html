@@ -1017,6 +1017,11 @@
     </div>
   </div>
   <div class="results-list" id="tests-res-list"></div>
+  <div class="save-banner" id="tests-save-banner">
+    <div class="save-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a2fa8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    <div class="save-text"><strong>Guardar en el Sheet</strong>Se guarda en la solapa Tests Físicos</div>
+    <button class="btn-save" id="tests-btn-save">Guardar</button>
+  </div>
   <div class="results-actions">
     <button class="btn-sec" id="tests-res-copiar">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -1027,6 +1032,35 @@
       Nuevo test
     </button>
   </div>
+</div>
+
+
+<!-- NAV BAR RESULTADOS -->
+<div id="nav-resultados" style="background:var(--azul-d);padding:8px 16px;display:none;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.15);">
+  <button id="btn-back-dashboard-res" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:8px;color:white;padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    INICIO
+  </button>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,.8);flex:1;text-align:center;letter-spacing:1px;">RESULTADOS</div>
+</div>
+
+<!-- ══ RESULTADOS BÚSQUEDA ══ -->
+<div id="screen-res-buscar" style="display:none;flex-direction:column;flex:1;padding:20px 18px;gap:16px;background:var(--fondo);">
+  <div>
+    <div class="section-title">Resultados por alumno</div>
+    <div class="section-sub">Buscá por apellido para ver el historial completo</div>
+  </div>
+  <div class="field-group">
+    <div class="field-label">Apellido y nombre</div>
+    <div style="display:flex;gap:8px;">
+      <input id="res-buscar-input" type="text" placeholder="Ej: GARCÍA" style="flex:1;background:var(--blanco);border:2px solid var(--borde);border-radius:10px;padding:13px 14px;color:var(--texto);font-family:'Barlow',sans-serif;font-size:1rem;outline:none;">
+      <button id="res-buscar-btn" style="background:var(--azul);color:var(--blanco);border:none;border-radius:10px;padding:13px 18px;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="loading-box" id="res-loading" style="display:none;"><div class="spinner"></div><p>Buscando...</p></div>
+  <div id="res-resultados" style="display:flex;flex-direction:column;gap:12px;"></div>
 </div>
 
 </div>
@@ -1700,10 +1734,12 @@
     var aeroScreens=["screen-setup","screen-seleccion","screen-timer","screen-results"];
     var depScreens=["screen-deportivo-setup","screen-deportivo-alumnos","screen-deportivo-eval","screen-deportivo-results"];
     var testsScreens=["screen-tests-setup","screen-tests-alumnos","screen-tests-eval","screen-tests-results"];
+    var resScreens=["screen-res-buscar"];
     screens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     aeroScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     depScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     testsScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
+    resScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     // Mostrar/ocultar nav bar aeróbico
     var navAero = document.getElementById("nav-aerobico");
     if(navAero) navAero.style.display = (id==="screen-dashboard"||id==="screen-timer-module"||id==="screen-timer-active"||id==="screen-timer-finish") ? "none" : "flex";
@@ -2149,6 +2185,19 @@
     showScreen("screen-dashboard");
   });
 
+  // Módulo resultados
+  var btnGoRes = document.getElementById("btn-go-resultados");
+  if(btnGoRes){
+    btnGoRes.addEventListener("click", function(){
+      var allScreens = document.querySelectorAll("[id^='screen-']");
+      allScreens.forEach(function(el){ el.style.display="none"; });
+      ["nav-aerobico","nav-deportivo","nav-tests"].forEach(function(n){
+        var el=document.getElementById(n); if(el) el.style.display="none";
+      });
+      if(window.mostrarModuloResultados) window.mostrarModuloResultados();
+    });
+  }
+
   // Módulo tests
   var btnGoTests = document.getElementById("btn-go-tests");
   if(btnGoTests){
@@ -2427,6 +2476,36 @@
   }
 
   // ── Copiar resultados ────────────────────────────────────
+  // Guardar deportiva en Sheet
+  gi("dep-btn-save").addEventListener("click", function(){
+    var btn = gi("dep-btn-save");
+    btn.disabled=true; btn.textContent="Guardando...";
+    var items = depState.alumnos.map(function(a){
+      var califs = {};
+      depState.dims.forEach(function(dim){
+        califs[depState.deporte+"|"+dim] = a.califs[dim]||"";
+      });
+      return { nombre:a.nombre, califs:califs };
+    });
+    fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ action:"deportiva", curso:depState.cursoKey, fecha:depState.fecha, items:items })
+    })
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var b=gi("dep-save-banner");
+      if(data.ok){
+        b.classList.add("save-ok"); btn.textContent="✓ Guardado";
+        b.querySelector(".save-text").innerHTML="<strong>Guardado en el Sheet</strong>"+data.guardados+" alumno"+(data.guardados!==1?"s":"")+" registrado"+(data.guardados!==1?"s":"");
+      } else {
+        b.classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar";
+        b.querySelector(".save-text").innerHTML="<strong>Error</strong>"+data.error;
+      }
+    })
+    .catch(function(){ gi("dep-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
+  });
+
   gi("dep-res-copiar").addEventListener("click", function(){
     var txt = "INSTITUTO MARIANO MORENO\nEvaluación Deportiva · "+depState.deporte+"\n"+
       depState.fecha+"  "+depState.hora+"\nDimensiones: "+depState.dims.join(" · ")+"\n---\n";
@@ -2762,6 +2841,32 @@
   }
 
   // ── Copiar ────────────────────────────────────────────
+  // Guardar tests en Sheet
+  gi("tests-btn-save").addEventListener("click", function(){
+    var btn = gi("tests-btn-save");
+    btn.disabled=true; btn.textContent="Guardando...";
+    var items = testsState.alumnos.map(function(a){
+      return { nombre:a.nombre, dato:a.dato, notaNum:a.notaNum, notaConc:a.notaConc };
+    });
+    fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ action:"tests", curso:testsState.cursoKey, fecha:testsState.fecha, test:testsState.test, items:items })
+    })
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var b=gi("tests-save-banner");
+      if(data.ok){
+        b.classList.add("save-ok"); btn.textContent="✓ Guardado";
+        b.querySelector(".save-text").innerHTML="<strong>Guardado en el Sheet</strong>"+data.guardados+" alumno"+(data.guardados!==1?"s":"")+" registrado"+(data.guardados!==1?"s":"");
+      } else {
+        b.classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar";
+        b.querySelector(".save-text").innerHTML="<strong>Error</strong>"+data.error;
+      }
+    })
+    .catch(function(){ gi("tests-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
+  });
+
   gi("tests-res-copiar").addEventListener("click", function(){
     var labels = {flexibilidad:"Flexibilidad",plancha:"Plancha",abdominales:"Abdominales"};
     var unidad = {flexibilidad:"cm",plancha:"",abdominales:"reps"};
@@ -2803,6 +2908,175 @@
   // ── Exponer ───────────────────────────────────────────
   window.mostrarModuloTests = function(){
     showTestsScreen("screen-tests-setup");
+  };
+
+})();
+
+</script>
+
+<script>
+
+// ══════════════════════════════════════════════════════════
+//  MÓDULO RESULTADOS POR ALUMNO
+// ══════════════════════════════════════════════════════════
+(function(){
+  var WORKER_URL = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
+
+  function gi(id){ return document.getElementById(id); }
+
+  function showResScreen(id){
+    ["screen-res-buscar"].forEach(function(s){ var el=gi(s); if(el) el.style.display="none"; });
+    var nav=gi("nav-resultados"); if(nav) nav.style.display="flex";
+    var t=gi(id); if(t) t.style.display="flex";
+  }
+
+  // Botón volver
+  var btnBack = gi("btn-back-dashboard-res");
+  if(btnBack){
+    btnBack.addEventListener("click", function(){
+      var nav=gi("nav-resultados"); if(nav) nav.style.display="none";
+      gi("screen-res-buscar").style.display="none";
+      var dash=gi("screen-dashboard"); if(dash) dash.style.display="flex";
+    });
+  }
+
+  // Buscar alumno
+  gi("res-buscar-btn").addEventListener("click", buscarAlumno);
+  gi("res-buscar-input").addEventListener("keypress", function(e){ if(e.key==="Enter") buscarAlumno(); });
+
+  function buscarAlumno(){
+    var nombre = gi("res-buscar-input").value.trim();
+    if(!nombre){ alert("Ingresá un apellido para buscar"); return; }
+    gi("res-loading").style.display="block";
+    gi("res-resultados").innerHTML="";
+
+    fetch(WORKER_URL+"?action=resultados&nombre="+encodeURIComponent(nombre))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        gi("res-loading").style.display="none";
+        if(!data.ok){ gi("res-resultados").innerHTML="<div style='color:var(--texto-s);font-size:.9rem;text-align:center;'>No se encontraron resultados para <strong>"+nombre+"</strong></div>"; return; }
+        renderResultados(data);
+      })
+      .catch(function(e){ gi("res-loading").style.display="none"; alert("Error: "+e.message); });
+  }
+
+  function renderResultados(data){
+    var cont = gi("res-resultados");
+    cont.innerHTML="";
+    var nombre = data.nombre;
+
+    // Header del alumno
+    var header = document.createElement("div");
+    header.style.cssText="background:var(--azul);border-radius:12px;padding:14px 16px;color:white;";
+    header.innerHTML="<div style='font-family:Barlow Condensed,sans-serif;font-size:1.2rem;font-weight:800;'>"+nombre+"</div>"+
+      "<div style='font-size:.72rem;color:rgba(255,255,255,.65);margin-top:2px;'>Historial de evaluaciones</div>";
+    cont.appendChild(header);
+
+    // Aeróbica
+    if(data.aerobica && data.aerobica.length){
+      var secAero = crearSeccion("Evaluación Aeróbica", "#1a2fa8");
+      data.aerobica.forEach(function(ev){
+        var item = document.createElement("div");
+        item.style.cssText="background:var(--blanco);border:2px solid var(--borde);border-radius:10px;padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;";
+        item.innerHTML=
+          "<div style='font-size:.75rem;color:var(--texto-s);flex:1;min-width:120px;'>"+ev.fecha+" · "+ev.hora+"</div>"+
+          "<div style='display:flex;gap:6px;flex-wrap:wrap;'>"+
+            badge("Trote", ev.tTrote)+
+            (ev.tCamina?badge("Caminata", ev.tCamina):"")+
+            badge("Total", ev.tTotal)+
+            badgeNota(ev.nota)+
+          "</div>";
+        secAero.appendChild(item);
+      });
+      cont.appendChild(secAero);
+    }
+
+    // Deportiva
+    var depKeys = Object.keys(data.deportiva||{}).filter(function(k){return k!=="fecha";});
+    if(depKeys.length){
+      var secDep = crearSeccion("Evaluación Deportiva", "#cc2222");
+      if(data.deportiva.fecha){
+        var fechaDiv = document.createElement("div");
+        fechaDiv.style.cssText="font-size:.72rem;color:var(--texto-s);margin-bottom:4px;";
+        fechaDiv.textContent="Última actualización: "+data.deportiva.fecha;
+        secDep.appendChild(fechaDiv);
+      }
+      depKeys.forEach(function(dep){
+        var dims = data.deportiva[dep];
+        var item = document.createElement("div");
+        item.style.cssText="background:var(--blanco);border:2px solid var(--borde);border-radius:10px;padding:11px 14px;";
+        var html="<div style='font-family:Barlow Condensed,sans-serif;font-size:.95rem;font-weight:700;color:var(--azul-d);margin-bottom:6px;'>"+dep+"</div><div style='display:flex;gap:6px;flex-wrap:wrap;'>";
+        Object.keys(dims).forEach(function(dim){ html+=badge(dim, dims[dim]); });
+        html+="</div>";
+        item.innerHTML=html;
+        secDep.appendChild(item);
+      });
+      cont.appendChild(secDep);
+    }
+
+    // Tests
+    var tests = data.tests||{};
+    var testKeys = ["flexibilidad","plancha","abdominales"].filter(function(k){ return tests[k]; });
+    if(testKeys.length){
+      var secTests = crearSeccion("Tests Físicos", "#4a56a0");
+      if(tests.fecha){
+        var fechaDiv2=document.createElement("div");
+        fechaDiv2.style.cssText="font-size:.72rem;color:var(--texto-s);margin-bottom:4px;";
+        fechaDiv2.textContent="Última actualización: "+tests.fecha;
+        secTests.appendChild(fechaDiv2);
+      }
+      var labels={flexibilidad:"Flexibilidad",plancha:"Plancha",abdominales:"Abdominales"};
+      var unidad={flexibilidad:"cm",plancha:"",abdominales:"reps"};
+      testKeys.forEach(function(k){
+        var t=tests[k];
+        var item=document.createElement("div");
+        item.style.cssText="background:var(--blanco);border:2px solid var(--borde);border-radius:10px;padding:11px 14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;";
+        item.innerHTML=
+          "<div style='font-family:Barlow Condensed,sans-serif;font-size:.95rem;font-weight:700;color:var(--azul-d);flex:1;'>"+labels[k]+"</div>"+
+          "<div style='display:flex;gap:6px;flex-wrap:wrap;'>"+
+            badge("Registro", t.dato+(unidad[k]?" "+unidad[k]:""))+
+            badgeNota(t.num)+
+            (t.conc?badge("Concepto",t.conc):"")+
+          "</div>";
+        secTests.appendChild(item);
+      });
+      cont.appendChild(secTests);
+    }
+
+    if(!data.aerobica.length && !depKeys.length && !testKeys.length){
+      cont.innerHTML+="<div style='color:var(--texto-s);font-size:.9rem;text-align:center;padding:20px;'>No hay evaluaciones registradas para este alumno</div>";
+    }
+  }
+
+  function crearSeccion(titulo, color){
+    var sec = document.createElement("div");
+    sec.style.cssText="display:flex;flex-direction:column;gap:8px;";
+    var h = document.createElement("div");
+    h.style.cssText="font-family:Barlow Condensed,sans-serif;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:"+color+";border-left:3px solid "+color+";padding-left:8px;";
+    h.textContent=titulo;
+    sec.appendChild(h);
+    return sec;
+  }
+
+  function badge(label, val){
+    return "<div style='background:var(--fondo);border:1px solid var(--borde);border-radius:20px;padding:3px 10px;font-size:.78rem;display:flex;gap:4px;align-items:center;'>"+
+      "<span style='color:var(--texto-s);font-size:.7rem;'>"+label+"</span>"+
+      "<span style='font-family:Barlow Condensed,sans-serif;font-weight:700;color:var(--azul-d);'>"+val+"</span></div>";
+  }
+
+  function badgeNota(n){
+    if(!n&&n!==0) return "";
+    var num=parseFloat(n);
+    var color=isNaN(num)?"var(--texto-s)":num>=7?"var(--azul)":num>=4?"#2ea85a":"var(--rojo)";
+    var bg=isNaN(num)?"var(--fondo)":num>=7?"var(--azul-pale)":num>=4?"var(--verde-pale)":"var(--rojo-pale)";
+    return "<div style='background:"+bg+";border:1px solid "+color+";border-radius:20px;padding:3px 12px;font-family:Barlow Condensed,sans-serif;font-size:1rem;font-weight:800;color:"+color+";'>"+n+"</div>";
+  }
+
+  // Exponer
+  window.mostrarModuloResultados = function(){
+    gi("res-buscar-input").value="";
+    gi("res-resultados").innerHTML="";
+    showResScreen("screen-res-buscar");
   };
 
 })();
