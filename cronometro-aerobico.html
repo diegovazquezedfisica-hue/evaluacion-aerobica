@@ -371,6 +371,103 @@
   .dr-dim-badge .dr-dim-name { font-size:.72rem; color:var(--texto-s); font-weight:400; }
   .dr-dim-badge .dr-dim-val  { font-family:"Barlow Condensed",sans-serif; font-size:.9rem; font-weight:700; color:var(--azul-d); }
 
+
+  /* ══ MÓDULO TESTS FÍSICOS ══ */
+  #screen-tests-setup   { display:none; flex-direction:column; flex:1; padding:20px 18px; gap:16px; background:var(--fondo); }
+  #screen-tests-alumnos { display:none; flex-direction:column; flex:1; }
+  #screen-tests-eval    { display:none; flex-direction:column; flex:1; }
+  #screen-tests-results { display:none; flex-direction:column; flex:1; }
+
+  /* Selector de test */
+  .test-opts { display:flex; flex-direction:column; gap:8px; }
+  .test-opt-btn {
+    background:var(--blanco); border:2px solid var(--borde); border-radius:12px;
+    padding:14px 18px; display:flex; align-items:center; gap:14px;
+    cursor:pointer; transition:border-color .15s, background .15s; user-select:none;
+  }
+  .test-opt-btn.selected { border-color:var(--azul); background:var(--azul-pale); }
+  .test-opt-icon { width:40px; height:40px; border-radius:9px; background:var(--fondo2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .test-opt-btn.selected .test-opt-icon { background:var(--azul-pale); }
+  .test-opt-info { flex:1; }
+  .test-opt-name { font-family:"Barlow Condensed",sans-serif; font-size:1.05rem; font-weight:700; color:var(--azul-d); }
+  .test-opt-btn.selected .test-opt-name { color:var(--azul); }
+  .test-opt-sub  { font-size:.72rem; color:var(--texto-s); margin-top:2px; }
+
+  /* Header de evaluación */
+  .te-header { background:var(--azul); border-bottom:4px solid var(--rojo); padding:11px 16px; display:flex; align-items:center; gap:10px; }
+  .te-test-label { font-family:"Barlow Condensed",sans-serif; font-size:1.1rem; font-weight:800; color:var(--blanco); flex:1; text-align:center; letter-spacing:1px; }
+
+  /* Lista de alumnos en evaluación */
+  .te-list { flex:1; overflow-y:auto; padding:12px 14px; display:flex; flex-direction:column; gap:10px; background:var(--fondo); }
+
+  /* Card de alumno en test */
+  .te-card { background:var(--blanco); border:2px solid var(--borde); border-radius:13px; padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+  .te-card-name { font-size:1rem; font-weight:600; color:var(--azul-d); }
+
+  /* Fila de dato + calificación */
+  .te-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .te-dato-wrap { display:flex; align-items:center; gap:6px; flex:1; min-width:0; }
+  .te-dato-label { font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:.8px; color:var(--texto-s); white-space:nowrap; }
+  .te-input {
+    background:var(--fondo); border:2px solid var(--borde); border-radius:8px;
+    padding:8px 10px; font-family:"Barlow Condensed",sans-serif; font-size:1.2rem; font-weight:700;
+    color:var(--azul-d); text-align:center; outline:none; width:80px;
+    -webkit-appearance:none; appearance:none;
+  }
+  .te-input:focus { border-color:var(--azul); }
+  .te-input.wide { width:100px; }
+
+  /* Cronómetro plancha */
+  .te-chrono-wrap { display:flex; align-items:center; gap:8px; flex:1; }
+  .te-chrono-display {
+    font-family:"Barlow Condensed",sans-serif; font-size:1.6rem; font-weight:800;
+    color:var(--azul-d); letter-spacing:2px; min-width:80px; text-align:center;
+    background:var(--fondo); border:2px solid var(--borde); border-radius:8px; padding:6px 10px;
+  }
+  .te-chrono-display.running { color:var(--rojo); border-color:var(--rojo); animation:blink-border 1s ease-in-out infinite alternate; }
+  @keyframes blink-border { from{border-color:var(--rojo);}to{border-color:var(--rojo-pale);} }
+  .te-chrono-btn {
+    background:var(--azul); color:var(--blanco); border:none; border-radius:8px;
+    padding:8px 14px; font-family:"Barlow Condensed",sans-serif; font-size:.9rem; font-weight:700;
+    cursor:pointer; white-space:nowrap;
+  }
+  .te-chrono-btn.stop { background:var(--rojo); }
+  .te-chrono-btn.reset { background:var(--fondo2); color:var(--texto-s); }
+
+  /* Calificaciones inline */
+  .te-cal-wrap { display:flex; gap:6px; align-items:center; }
+  .te-cal-sep { font-size:.7rem; color:var(--borde); }
+  .te-num-input {
+    background:var(--fondo); border:2px solid var(--borde); border-radius:8px;
+    padding:7px 8px; font-family:"Barlow Condensed",sans-serif; font-size:1rem; font-weight:700;
+    color:var(--azul-d); text-align:center; outline:none; width:55px;
+    -webkit-appearance:none; appearance:none;
+  }
+  .te-num-input:focus { border-color:var(--azul); }
+  .te-conc-row { display:flex; gap:4px; }
+  .te-conc-btn {
+    background:var(--fondo); border:2px solid var(--borde); border-radius:6px;
+    padding:6px 5px; text-align:center; cursor:pointer; font-family:"Barlow Condensed",sans-serif;
+    font-size:.78rem; font-weight:700; color:var(--texto-s); transition:all .15s; min-width:28px;
+  }
+  .te-conc-btn.sel-e  { border-color:#0f1e72; background:#c8d0f0; color:#0f1e72; }
+  .te-conc-btn.sel-mb { border-color:var(--azul);    background:var(--azul-pale);  color:var(--azul); }
+  .te-conc-btn.sel-b  { border-color:var(--verde-b); background:var(--verde-pale); color:var(--verde); }
+  .te-conc-btn.sel-r  { border-color:#d46000;        background:#fff3e0;           color:#d46000; }
+  .te-conc-btn.sel-i  { border-color:var(--rojo);    background:var(--rojo-pale);  color:var(--rojo); }
+
+  /* Footer */
+  .te-footer { padding:14px; display:flex; gap:10px; background:var(--fondo); border-top:2px solid var(--borde); }
+  .te-fin-btn { flex:1; background:var(--rojo); color:var(--blanco); border:none; border-radius:11px; padding:14px; font-family:"Barlow Condensed",sans-serif; font-size:1.1rem; font-weight:700; cursor:pointer; }
+
+  /* Resultados tests */
+  .tr-row { background:var(--blanco); border:2px solid var(--borde); border-radius:11px; padding:12px 14px; display:flex; flex-direction:column; gap:6px; }
+  .tr-name { font-weight:600; font-size:.95rem; color:var(--azul-d); }
+  .tr-datos { display:flex; gap:8px; flex-wrap:wrap; }
+  .tr-badge { background:var(--fondo); border:1px solid var(--borde); border-radius:20px; padding:3px 10px; font-size:.8rem; display:flex; gap:5px; align-items:center; }
+  .tr-badge-label { color:var(--texto-s); font-size:.7rem; }
+  .tr-badge-val   { font-family:"Barlow Condensed",sans-serif; font-weight:700; color:var(--azul-d); font-size:.9rem; }
+
   /* Finish screen */
   #screen-timer-finish{display:none;flex-direction:column;flex:1;background:#0a1240;align-items:center;justify-content:center;padding:30px 20px;gap:20px;}
   .tf-title{font-family:"Barlow Condensed",sans-serif;font-size:2.5rem;font-weight:800;color:var(--blanco);letter-spacing:2px;text-align:center;}
@@ -591,15 +688,15 @@
       <svg class="dash-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
     </div>
 
-    <div class="dash-card gris">
-      <div class="dash-icon gris">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a56a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>
+    <div class="dash-card" style="border-left:5px solid #4a56a0;" id="btn-go-tests">
+      <div class="dash-icon" style="background:#eeedf8;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a56a0" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>
       </div>
       <div class="dash-card-info">
         <div class="dash-card-title">Tests Físicos</div>
-        <div class="dash-card-sub">Flexibilidad · Plancha · Abdominales — próximamente</div>
+        <div class="dash-card-sub">Flexibilidad · Plancha · Abdominales</div>
       </div>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c8ceea" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <svg class="dash-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
     </div>
 
   </div>
@@ -802,6 +899,132 @@
     <button class="btn-sec az" id="dep-res-nuevo">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Nueva evaluación
+    </button>
+  </div>
+</div>
+
+
+<!-- NAV BAR TESTS -->
+<div id="nav-tests" style="background:var(--azul-d);padding:8px 16px;display:none;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.15);">
+  <button id="btn-back-dashboard-tests" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:8px;color:white;padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    INICIO
+  </button>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,.8);flex:1;text-align:center;letter-spacing:1px;">TESTS FÍSICOS</div>
+</div>
+
+<!-- ══ TESTS SETUP ══ -->
+<div id="screen-tests-setup">
+  <div class="dep-section">
+    <div class="dep-label">Test a evaluar</div>
+    <div class="test-opts">
+      <div class="test-opt-btn" data-test="flexibilidad">
+        <div class="test-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a56a0" stroke-width="2" stroke-linecap="round"><path d="M4 20 L10 8 L14 14 L18 4"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+        </div>
+        <div class="test-opt-info">
+          <div class="test-opt-name">Flexibilidad (cajón)</div>
+          <div class="test-opt-sub">Registro en centímetros + o —</div>
+        </div>
+      </div>
+      <div class="test-opt-btn" data-test="plancha">
+        <div class="test-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a56a0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="test-opt-info">
+          <div class="test-opt-name">Plancha</div>
+          <div class="test-opt-sub">Cronómetro por alumno · Start/Stop</div>
+        </div>
+      </div>
+      <div class="test-opt-btn" data-test="abdominales">
+        <div class="test-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a56a0" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+        </div>
+        <div class="test-opt-info">
+          <div class="test-opt-name">Abdominales</div>
+          <div class="test-opt-sub">Cantidad en 1 minuto</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dep-section">
+    <div class="dep-label">Curso</div>
+    <div class="select-wrap">
+      <select id="tests-curso-select">
+        <option value="" disabled selected>— Seleccioná un curso —</option>
+        <optgroup label="Ciclo Básico">
+          <option value="1A">1° A</option><option value="1B">1° B</option>
+          <option value="2A">2° A</option><option value="2B">2° B</option>
+          <option value="3A">3° A</option><option value="3B">3° B</option>
+        </optgroup>
+        <optgroup label="Ciclo Superior — Economía">
+          <option value="4E">4° Economía</option><option value="5E">5° Economía</option><option value="6E">6° Economía</option>
+        </optgroup>
+        <optgroup label="Ciclo Superior — Sociales">
+          <option value="4S">4° Sociales</option><option value="5S">5° Sociales</option><option value="6S">6° Sociales</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="loading-box" id="tests-loading" style="display:none;"><div class="spinner"></div><p>Cargando lista...</p></div>
+  </div>
+
+  <button class="btn-primary" id="tests-btn-siguiente" disabled style="margin-top:auto;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    SELECCIONAR GRUPO
+  </button>
+</div>
+
+<!-- ══ TESTS SELECCIÓN ══ -->
+<div id="screen-tests-alumnos">
+  <div class="sel-header">
+    <div class="sel-curso-badge" id="tests-sel-badge">—</div>
+    <div class="sel-title" id="tests-sel-title">Seleccioná el grupo</div>
+    <div class="sel-counter" id="tests-sel-counter">0 seleccionados</div>
+  </div>
+  <div class="sel-list" id="tests-sel-list"></div>
+  <div class="sel-footer">
+    <button class="btn-sel-back" id="tests-sel-back">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Volver
+    </button>
+    <button class="btn-sel-ok" id="tests-sel-ok" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      EVALUAR
+    </button>
+  </div>
+</div>
+
+<!-- ══ TESTS EVALUACIÓN ══ -->
+<div id="screen-tests-eval">
+  <div class="te-header">
+    <div class="te-test-label" id="te-test-label">PLANCHA</div>
+    <button class="btn-fin" id="tests-eval-fin" style="font-size:.85rem;padding:7px 12px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+      TERMINAR
+    </button>
+  </div>
+  <div class="te-list" id="te-eval-list"></div>
+</div>
+
+<!-- ══ TESTS RESULTADOS ══ -->
+<div id="screen-tests-results">
+  <div class="results-header">
+    <img class="escudo-sm" src="data:image/png;base64," alt="Escudo">
+    <div>
+      <div class="results-title" id="tests-res-title">RESULTADOS</div>
+      <div class="results-meta" id="tests-res-meta">—</div>
+    </div>
+  </div>
+  <div class="results-list" id="tests-res-list"></div>
+  <div class="results-actions">
+    <button class="btn-sec" id="tests-res-copiar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar
+    </button>
+    <button class="btn-sec az" id="tests-res-nuevo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Nuevo test
     </button>
   </div>
 </div>
@@ -1476,9 +1699,11 @@
     var screens=["screen-dashboard","screen-aerobico","screen-timer-module","screen-timer-active","screen-timer-finish"];
     var aeroScreens=["screen-setup","screen-seleccion","screen-timer","screen-results"];
     var depScreens=["screen-deportivo-setup","screen-deportivo-alumnos","screen-deportivo-eval","screen-deportivo-results"];
+    var testsScreens=["screen-tests-setup","screen-tests-alumnos","screen-tests-eval","screen-tests-results"];
     screens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     aeroScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     depScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
+    testsScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     // Mostrar/ocultar nav bar aeróbico
     var navAero = document.getElementById("nav-aerobico");
     if(navAero) navAero.style.display = (id==="screen-dashboard"||id==="screen-timer-module"||id==="screen-timer-active"||id==="screen-timer-finish") ? "none" : "flex";
@@ -1924,6 +2149,18 @@
     showScreen("screen-dashboard");
   });
 
+  // Módulo tests
+  var btnGoTests = document.getElementById("btn-go-tests");
+  if(btnGoTests){
+    btnGoTests.addEventListener("click", function(){
+      var allScreens = document.querySelectorAll("[id^='screen-']");
+      allScreens.forEach(function(el){ el.style.display="none"; });
+      if(document.getElementById("nav-aerobico"))  document.getElementById("nav-aerobico").style.display="none";
+      if(document.getElementById("nav-deportivo")) document.getElementById("nav-deportivo").style.display="none";
+      if(window.mostrarModuloTests) window.mostrarModuloTests();
+    });
+  }
+
   // Módulo deportivo
   var btnGoDep = document.getElementById("btn-go-deportivo");
   if(btnGoDep){
@@ -2232,6 +2469,341 @@
       var dash=gi("screen-dashboard"); if(dash) dash.style.display="flex";
     });
   }
+
+})();
+
+</script>
+
+<script>
+
+// ══════════════════════════════════════════════════════════
+//  MÓDULO TESTS FÍSICOS
+// ══════════════════════════════════════════════════════════
+(function(){
+  var SHEET_ID    = "1vOa37Jr63T8ylzFAxO1Wri-3uvAkSm4OnFG9zvS5Cgo";
+  var SHEETS_BASE = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=";
+  var SOLAPAS = {
+    "1A":"1%C2%B0 A","1B":"1%C2%B0 B","2A":"2%C2%B0 A","2B":"2%C2%B0 B",
+    "3A":"3%C2%B0 A","3B":"3%C2%B0 B","4E":"4%C2%B0 Econom%C3%ADa","4S":"4%C2%B0 Sociales",
+    "5E":"5%C2%B0 Econom%C3%ADa","5S":"5%C2%B0 Sociales","6E":"6%C2%B0 Econom%C3%ADa","6S":"6%C2%B0 Sociales"
+  };
+
+  var DIAS  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  function fechaStr(d){ return DIAS[d.getDay()]+" "+d.getDate()+" de "+MESES[d.getMonth()]+" "+d.getFullYear(); }
+  function horaStr(d) { var p=function(n){return String(n).padStart(2,"0");}; return p(d.getHours())+":"+p(d.getMinutes()); }
+  function fmtTime(s){ var p=function(n){return String(n).padStart(2,"0");}; return p(Math.floor(s/60))+":"+p(s%60); }
+
+  function gi(id){ return document.getElementById(id); }
+
+  var testsState = {
+    test: "",
+    cursoKey: "",
+    listaCompleta: [],
+    alumnos: [],
+    fecha: "",
+    hora: "",
+    chronos: {}  // id → { secs, running, interval }
+  };
+
+  var CONC_OPTS = ["E","MB","B","R","I"];
+  var CONC_CLS  = {E:"sel-e",MB:"sel-mb",B:"sel-b",R:"sel-r",I:"sel-i"};
+
+  function showTestsScreen(id){
+    var screens=["screen-tests-setup","screen-tests-alumnos","screen-tests-eval","screen-tests-results"];
+    screens.forEach(function(s){ var el=gi(s); if(el) el.style.display="none"; });
+    var nav=gi("nav-tests"); if(nav) nav.style.display="flex";
+    var t=gi(id); if(t) t.style.display="flex";
+  }
+
+  // ── Selección de test ─────────────────────────────────
+  document.querySelectorAll(".test-opt-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll(".test-opt-btn").forEach(function(b){ b.classList.remove("selected"); });
+      btn.classList.add("selected");
+      testsState.test = btn.dataset.test;
+      checkTestsReady();
+    });
+  });
+
+  // ── Curso ─────────────────────────────────────────────
+  gi("tests-curso-select").addEventListener("change", function(){
+    testsState.cursoKey = this.value;
+    testsState.listaCompleta = [];
+    gi("tests-loading").style.display = "block";
+    gi("tests-btn-siguiente").disabled = true;
+
+    var url = SHEETS_BASE + SOLAPAS[testsState.cursoKey] + "&range=A5:A45";
+    fetch(url)
+      .then(function(r){ return r.text(); })
+      .then(function(t){
+        gi("tests-loading").style.display = "none";
+        var json = t.replace(/^[^(]+\(/, "").replace(/\);?\s*$/, "");
+        var data = JSON.parse(json);
+        var rows = data.table ? data.table.rows : [];
+        testsState.listaCompleta = [];
+        rows.forEach(function(row){
+          if(!row.c||!row.c[0]||!row.c[0].v) return;
+          var n = String(row.c[0].v).trim();
+          if(n) testsState.listaCompleta.push(n);
+        });
+        checkTestsReady();
+      })
+      .catch(function(){ gi("tests-loading").style.display="none"; });
+  });
+
+  function checkTestsReady(){
+    gi("tests-btn-siguiente").disabled = !(testsState.test && testsState.listaCompleta.length);
+  }
+
+  // ── Ir a selección ────────────────────────────────────
+  gi("tests-btn-siguiente").addEventListener("click", function(){
+    gi("tests-sel-badge").textContent = testsState.cursoKey;
+    gi("tests-sel-title").textContent = {flexibilidad:"Flexibilidad",plancha:"Plancha",abdominales:"Abdominales"}[testsState.test];
+    var list = gi("tests-sel-list");
+    list.innerHTML = "";
+    testsState.listaCompleta.forEach(function(nombre){
+      var card = document.createElement("div");
+      card.className = "sel-card";
+      card.dataset.nombre = nombre;
+      card.innerHTML =
+        "<div class='sel-check'><svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg></div>"+
+        "<div class='sel-name'>"+nombre+"</div>";
+      card.addEventListener("click", function(){
+        this.classList.toggle("selected");
+        actualizarTestsCounter();
+      });
+      list.appendChild(card);
+    });
+    actualizarTestsCounter();
+    showTestsScreen("screen-tests-alumnos");
+  });
+
+  function actualizarTestsCounter(){
+    var n = document.querySelectorAll("#tests-sel-list .sel-card.selected").length;
+    gi("tests-sel-counter").textContent = n+" seleccionado"+(n!==1?"s":"");
+    gi("tests-sel-ok").disabled = (n===0);
+  }
+
+  gi("tests-sel-back").addEventListener("click", function(){ showTestsScreen("screen-tests-setup"); });
+
+  // ── Ir a evaluación ───────────────────────────────────
+  gi("tests-sel-ok").addEventListener("click", function(){
+    var sel = document.querySelectorAll("#tests-sel-list .sel-card.selected");
+    testsState.alumnos = [];
+    testsState.chronos = {};
+    sel.forEach(function(card, i){
+      testsState.alumnos.push({ id:i, nombre:card.dataset.nombre, dato:"", notaNum:"", notaConc:"" });
+      if(testsState.test === "plancha"){
+        testsState.chronos[i] = { secs:0, running:false, interval:null };
+      }
+    });
+    var ahora = new Date();
+    testsState.fecha = fechaStr(ahora);
+    testsState.hora  = horaStr(ahora);
+
+    var labels = {flexibilidad:"FLEXIBILIDAD",plancha:"PLANCHA",abdominales:"ABDOMINALES"};
+    gi("te-test-label").textContent = labels[testsState.test];
+    renderTestsEval();
+    showTestsScreen("screen-tests-eval");
+  });
+
+  function renderTestsEval(){
+    var list = gi("te-eval-list");
+    list.innerHTML = "";
+    var test = testsState.test;
+
+    testsState.alumnos.forEach(function(alumno){
+      var card = document.createElement("div");
+      card.className = "te-card";
+
+      var html = "<div class='te-card-name'>"+alumno.nombre+"</div>";
+      html += "<div class='te-row'>";
+
+      // ── Dato principal ──
+      if(test === "flexibilidad"){
+        html += "<div class='te-dato-wrap'>";
+        html += "<div class='te-dato-label'>cm</div>";
+        html += "<input class='te-input' type='text' inputmode='numeric' placeholder='0' id='dato-"+alumno.id+"' style='width:75px;'>";
+        html += "</div>";
+      } else if(test === "plancha"){
+        html += "<div class='te-chrono-wrap'>";
+        html += "<div class='te-chrono-display' id='chrono-"+alumno.id+"'>00:00</div>";
+        html += "<button class='te-chrono-btn' id='chrono-btn-"+alumno.id+"'>START</button>";
+        html += "<button class='te-chrono-btn reset' id='chrono-reset-"+alumno.id+"'>↺</button>";
+        html += "</div>";
+      } else if(test === "abdominales"){
+        html += "<div class='te-dato-wrap'>";
+        html += "<div class='te-dato-label'>reps</div>";
+        html += "<input class='te-input' type='text' inputmode='numeric' placeholder='0' id='dato-"+alumno.id+"' style='width:75px;'>";
+        html += "</div>";
+      }
+
+      // ── Calificaciones ──
+      html += "<div class='te-cal-wrap'>";
+      html += "<input class='te-num-input' type='text' inputmode='decimal' placeholder='—' id='num-"+alumno.id+"' maxlength='4'>";
+      html += "<div class='te-conc-row' id='conc-"+alumno.id+"'>";
+      CONC_OPTS.forEach(function(k){
+        html += "<div class='te-conc-btn' data-id='"+alumno.id+"' data-val='"+k+"'>"+k+"</div>";
+      });
+      html += "</div>";
+      html += "</div>";
+
+      html += "</div>"; // te-row
+      card.innerHTML = html;
+      list.appendChild(card);
+    });
+
+    // Eventos cronómetros plancha
+    if(test === "plancha"){
+      testsState.alumnos.forEach(function(alumno){
+        var btnStart = gi("chrono-btn-"+alumno.id);
+        var btnReset = gi("chrono-reset-"+alumno.id);
+        var display  = gi("chrono-"+alumno.id);
+        var ch = testsState.chronos[alumno.id];
+
+        btnStart.addEventListener("click", function(){
+          if(!ch.running){
+            ch.running = true;
+            btnStart.textContent = "STOP";
+            btnStart.className = "te-chrono-btn stop";
+            display.classList.add("running");
+            ch.interval = setInterval(function(){
+              ch.secs++;
+              display.textContent = fmtTime(ch.secs);
+              alumno.dato = fmtTime(ch.secs);
+            }, 1000);
+          } else {
+            ch.running = false;
+            clearInterval(ch.interval);
+            btnStart.textContent = "START";
+            btnStart.className = "te-chrono-btn";
+            display.classList.remove("running");
+          }
+        });
+
+        btnReset.addEventListener("click", function(){
+          ch.running = false;
+          clearInterval(ch.interval);
+          ch.secs = 0;
+          alumno.dato = "";
+          display.textContent = "00:00";
+          display.classList.remove("running");
+          btnStart.textContent = "START";
+          btnStart.className = "te-chrono-btn";
+        });
+      });
+    }
+
+    // Eventos botones conceptuales
+    document.querySelectorAll(".te-conc-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var aId = this.dataset.id;
+        var val = this.dataset.val;
+        document.querySelectorAll(".te-conc-btn[data-id='"+aId+"']").forEach(function(b){
+          b.className = "te-conc-btn";
+        });
+        this.classList.add(CONC_CLS[val]);
+        testsState.alumnos.forEach(function(a){
+          if(String(a.id)===String(aId)) a.notaConc = val;
+        });
+      });
+    });
+  }
+
+  // ── Terminar evaluación ───────────────────────────────
+  gi("tests-eval-fin").addEventListener("click", function(){
+    // Recoger datos
+    testsState.alumnos.forEach(function(alumno){
+      var num = gi("num-"+alumno.id);
+      if(num) alumno.notaNum = num.value || "—";
+      if(testsState.test !== "plancha"){
+        var dato = gi("dato-"+alumno.id);
+        if(dato) alumno.dato = dato.value || "—";
+      }
+      // Detener cronómetros que queden corriendo
+      if(testsState.test === "plancha"){
+        var ch = testsState.chronos[alumno.id];
+        if(ch && ch.running){
+          ch.running = false;
+          clearInterval(ch.interval);
+          alumno.dato = fmtTime(ch.secs);
+        }
+      }
+    });
+    mostrarResultadosTests();
+  });
+
+  function mostrarResultadosTests(){
+    var labels = {flexibilidad:"FLEXIBILIDAD",plancha:"PLANCHA",abdominales:"ABDOMINALES"};
+    var unidad = {flexibilidad:"cm",plancha:"",abdominales:"reps"};
+    gi("tests-res-title").textContent = labels[testsState.test];
+    gi("tests-res-meta").innerHTML =
+      "<strong>"+testsState.cursoKey+"</strong> &nbsp;·&nbsp; "+labels[testsState.test]+
+      "<br>"+testsState.fecha+" &nbsp;·&nbsp; "+testsState.hora;
+
+    var list = gi("tests-res-list");
+    list.innerHTML = "";
+    testsState.alumnos.forEach(function(alumno){
+      var row = document.createElement("div");
+      row.className = "tr-row";
+      var u = unidad[testsState.test];
+      var datoStr = alumno.dato + (u?" "+u:"");
+      row.innerHTML =
+        "<div class='tr-name'>"+alumno.nombre+"</div>"+
+        "<div class='tr-datos'>"+
+          "<div class='tr-badge'><span class='tr-badge-label'>Registro</span><span class='tr-badge-val'>"+datoStr+"</span></div>"+
+          "<div class='tr-badge'><span class='tr-badge-label'>Nota</span><span class='tr-badge-val'>"+(alumno.notaNum||"—")+"</span></div>"+
+          "<div class='tr-badge'><span class='tr-badge-label'>Concepto</span><span class='tr-badge-val'>"+(alumno.notaConc||"—")+"</span></div>"+
+        "</div>";
+      list.appendChild(row);
+    });
+    showTestsScreen("screen-tests-results");
+  }
+
+  // ── Copiar ────────────────────────────────────────────
+  gi("tests-res-copiar").addEventListener("click", function(){
+    var labels = {flexibilidad:"Flexibilidad",plancha:"Plancha",abdominales:"Abdominales"};
+    var unidad = {flexibilidad:"cm",plancha:"",abdominales:"reps"};
+    var txt = "INSTITUTO MARIANO MORENO\nTest Físico · "+labels[testsState.test]+"\n"+
+      testsState.fecha+"  "+testsState.hora+"\n---\n";
+    testsState.alumnos.forEach(function(a){
+      txt += a.nombre+"  "+a.dato+(unidad[testsState.test]?" "+unidad[testsState.test]:"")+"  Nota: "+(a.notaNum||"—")+"  Concepto: "+(a.notaConc||"—")+"\n";
+    });
+    if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){alert("Copiado!");});
+    else alert(txt);
+  });
+
+  // ── Nueva evaluación ──────────────────────────────────
+  gi("tests-res-nuevo").addEventListener("click", function(){
+    testsState.test=""; testsState.cursoKey=""; testsState.listaCompleta=[];
+    testsState.alumnos=[]; testsState.chronos={};
+    document.querySelectorAll(".test-opt-btn").forEach(function(b){b.classList.remove("selected");});
+    gi("tests-curso-select").value="";
+    gi("tests-btn-siguiente").disabled=true;
+    showTestsScreen("screen-tests-setup");
+  });
+
+  // ── Botón volver ──────────────────────────────────────
+  var btnBack = gi("btn-back-dashboard-tests");
+  if(btnBack){
+    btnBack.addEventListener("click", function(){
+      // Detener cronómetros activos
+      Object.keys(testsState.chronos).forEach(function(k){
+        var ch = testsState.chronos[k];
+        if(ch && ch.running){ ch.running=false; clearInterval(ch.interval); }
+      });
+      var nav=gi("nav-tests"); if(nav) nav.style.display="none";
+      var screens=["screen-tests-setup","screen-tests-alumnos","screen-tests-eval","screen-tests-results"];
+      screens.forEach(function(s){ var el=gi(s); if(el) el.style.display="none"; });
+      var dash=gi("screen-dashboard"); if(dash) dash.style.display="flex";
+    });
+  }
+
+  // ── Exponer ───────────────────────────────────────────
+  window.mostrarModuloTests = function(){
+    showTestsScreen("screen-tests-setup");
+  };
 
 })();
 
