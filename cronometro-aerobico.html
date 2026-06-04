@@ -270,6 +270,107 @@
   .ta-progress-bar{height:100%;background:#4af0a0;border-radius:3px;transition:width .5s linear;}
   .ta-progress-bar.rest-bar{background:#f08040;}
 
+
+  /* ══ MÓDULO DEPORTIVO ══ */
+  #screen-deportivo-setup   { display:none; flex-direction:column; flex:1; padding:20px 18px; gap:16px; background:var(--fondo); }
+  #screen-deportivo-alumnos { display:none; flex-direction:column; flex:1; }
+  #screen-deportivo-eval    { display:none; flex-direction:column; flex:1; }
+  #screen-deportivo-results { display:none; flex-direction:column; flex:1; }
+
+  /* Setup deportivo */
+  .dep-section { display:flex; flex-direction:column; gap:8px; }
+  .dep-label   { font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:1.2px; color:var(--texto-s); }
+
+  /* Grilla de deportes */
+  .dep-deportes { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .dep-deporte-btn {
+    background:var(--blanco); border:2px solid var(--borde); border-radius:12px;
+    padding:18px 10px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:border-color .15s, background .15s; user-select:none;
+    min-height:60px;
+  }
+  .dep-deporte-btn.selected { border-color:var(--azul); background:var(--azul-pale); }
+  .dep-deporte-btn svg { flex-shrink:0; }
+  .dep-deporte-name { font-family:"Barlow Condensed",sans-serif; font-size:1.2rem; font-weight:800; color:var(--azul-d); letter-spacing:.5px; }
+  .dep-deporte-btn.selected .dep-deporte-name { color:var(--azul); }
+
+  /* Dimensiones */
+  .dep-dims { display:flex; flex-direction:column; gap:8px; }
+  .dep-dim-btn {
+    background:var(--blanco); border:2px solid var(--borde); border-radius:10px;
+    padding:12px 16px; display:flex; align-items:center; gap:12px;
+    cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .dep-dim-btn.selected { border-color:var(--azul); background:var(--azul-pale); }
+  .dep-dim-check {
+    width:20px; height:20px; border-radius:5px; border:2px solid var(--borde);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    transition:background .15s, border-color .15s;
+  }
+  .dep-dim-btn.selected .dep-dim-check { background:var(--azul); border-color:var(--azul); }
+  .dep-dim-name { font-family:"Barlow Condensed",sans-serif; font-size:1rem; font-weight:700; color:var(--azul-d); }
+  .dep-dim-btn.selected .dep-dim-name { color:var(--azul); }
+
+  /* Tipo de calificación */
+  .dep-tipo-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .dep-tipo-btn {
+    background:var(--blanco); border:2px solid var(--borde); border-radius:10px;
+    padding:12px; text-align:center; cursor:pointer;
+    font-family:"Barlow Condensed",sans-serif; font-size:1rem; font-weight:700; color:var(--texto-s);
+    transition:all .15s;
+  }
+  .dep-tipo-btn.selected { border-color:var(--azul); background:var(--azul-pale); color:var(--azul); }
+
+  /* Pantalla evaluación deportiva */
+  .de-header { background:var(--azul); border-bottom:4px solid var(--rojo); padding:11px 16px; display:flex; align-items:center; gap:10px; }
+  .de-info   { flex:1; }
+  .de-deporte-label { font-family:"Barlow Condensed",sans-serif; font-size:1.1rem; font-weight:800; color:var(--blanco); }
+  .de-dims-label    { font-size:.7rem; color:rgba(255,255,255,.65); margin-top:1px; }
+
+  .de-list { flex:1; overflow-y:auto; padding:12px 14px; display:flex; flex-direction:column; gap:10px; background:var(--fondo); }
+
+  .de-card { background:var(--blanco); border:2px solid var(--borde); border-radius:13px; padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+  .de-card-name { font-size:1rem; font-weight:600; color:var(--azul-d); margin-bottom:2px; }
+
+  /* Filas de dimensión dentro de la card */
+  .de-dim-row { display:flex; align-items:center; gap:10px; }
+  .de-dim-tag { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--texto-s); min-width:80px; }
+
+  /* Calificación numérica */
+  .de-num-input {
+    flex:1; background:var(--fondo); border:2px solid var(--borde); border-radius:8px;
+    padding:8px 12px; font-family:"Barlow Condensed",sans-serif; font-size:1.3rem; font-weight:700;
+    color:var(--azul-d); text-align:center; outline:none; width:80px;
+    -webkit-appearance:none; appearance:none;
+  }
+  .de-num-input:focus { border-color:var(--azul); }
+
+  /* Calificación conceptual */
+  .de-conc-row { display:flex; gap:5px; flex:1; }
+  .de-conc-btn {
+    flex:1; background:var(--fondo); border:2px solid var(--borde); border-radius:8px;
+    padding:7px 2px; text-align:center; cursor:pointer;
+    font-family:"Barlow Condensed",sans-serif; font-size:.8rem; font-weight:700; color:var(--texto-s);
+    transition:all .15s; min-width:0;
+  }
+  .de-conc-btn.sel-e  { border-color:#0f1e72;        background:#c8d0f0;           color:#0f1e72; }
+  .de-conc-btn.sel-mb { border-color:var(--azul);    background:var(--azul-pale);  color:var(--azul); }
+  .de-conc-btn.sel-b  { border-color:var(--verde-b); background:var(--verde-pale); color:var(--verde); }
+  .de-conc-btn.sel-r  { border-color:#d46000;        background:#fff3e0;           color:#d46000; }
+  .de-conc-btn.sel-i  { border-color:var(--rojo);    background:var(--rojo-pale);  color:var(--rojo); }
+
+  /* Footer de evaluación */
+  .de-footer { padding:14px; display:flex; gap:10px; background:var(--fondo); border-top:2px solid var(--borde); }
+  .de-fin-btn { flex:1; background:var(--rojo); color:var(--blanco); border:none; border-radius:11px; padding:14px; font-family:"Barlow Condensed",sans-serif; font-size:1.1rem; font-weight:700; cursor:pointer; }
+
+  /* Resultados deportivos */
+  .dr-row { background:var(--blanco); border:2px solid var(--borde); border-radius:11px; padding:12px 14px; display:flex; flex-direction:column; gap:6px; }
+  .dr-name { font-weight:600; font-size:.95rem; color:var(--azul-d); }
+  .dr-dims  { display:flex; gap:8px; flex-wrap:wrap; }
+  .dr-dim-badge { display:flex; align-items:center; gap:4px; background:var(--fondo); border:1px solid var(--borde); border-radius:20px; padding:3px 10px; font-size:.78rem; }
+  .dr-dim-badge .dr-dim-name { font-size:.72rem; color:var(--texto-s); font-weight:400; }
+  .dr-dim-badge .dr-dim-val  { font-family:"Barlow Condensed",sans-serif; font-size:.9rem; font-weight:700; color:var(--azul-d); }
+
   /* Finish screen */
   #screen-timer-finish{display:none;flex-direction:column;flex:1;background:#0a1240;align-items:center;justify-content:center;padding:30px 20px;gap:20px;}
   .tf-title{font-family:"Barlow Condensed",sans-serif;font-size:2.5rem;font-weight:800;color:var(--blanco);letter-spacing:2px;text-align:center;}
@@ -479,6 +580,17 @@
       <svg class="dash-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
     </div>
 
+    <div class="dash-card" style="border-left:5px solid #1a7a3c;" id="btn-go-deportivo">
+      <div class="dash-icon" style="background:#e8f7ee;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10A15 15 0 0 1 12 2z"/><path d="M2 12h20"/></svg>
+      </div>
+      <div class="dash-card-info">
+        <div class="dash-card-title">Evaluación Deportiva</div>
+        <div class="dash-card-sub">Fútbol · Básquet · Vóley · Handball · Atletismo · Softbol</div>
+      </div>
+      <svg class="dash-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+
     <div class="dash-card gris">
       <div class="dash-icon gris">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a56a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>
@@ -558,6 +670,141 @@
   </div>
 </div>
 
+
+
+<!-- NAV BAR DEPORTIVO -->
+<div id="nav-deportivo" style="background:var(--azul-d);padding:8px 16px;display:none;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.15);">
+  <button id="btn-back-dashboard-dep" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:8px;color:white;padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    INICIO
+  </button>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,.8);flex:1;text-align:center;letter-spacing:1px;">EVALUACIÓN DEPORTIVA</div>
+</div>
+
+<!-- ══ DEPORTIVO SETUP ══ -->
+<div id="screen-deportivo-setup">
+
+  <div class="dep-section">
+    <div class="dep-label">Deporte</div>
+    <div class="dep-deportes" id="dep-deportes-grid">
+      <div class="dep-deporte-btn" data-deporte="Fútbol"><div class="dep-deporte-name">Fútbol</div></div>
+      <div class="dep-deporte-btn" data-deporte="Básquet"><div class="dep-deporte-name">Básquet</div></div>
+      <div class="dep-deporte-btn" data-deporte="Vóley"><div class="dep-deporte-name">Vóley</div></div>
+      <div class="dep-deporte-btn" data-deporte="Handball"><div class="dep-deporte-name">Handball</div></div>
+      <div class="dep-deporte-btn" data-deporte="Atletismo"><div class="dep-deporte-name">Atletismo</div></div>
+      <div class="dep-deporte-btn" data-deporte="Softbol"><div class="dep-deporte-name">Softbol</div></div>
+    </div>
+  </div>
+
+  <div class="dep-section">
+    <div class="dep-label">Dimensiones a evaluar</div>
+    <div class="dep-dims">
+      <div class="dep-dim-btn" data-dim="Juego">
+        <div class="dep-dim-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="dep-dim-name">Juego</div>
+      </div>
+      <div class="dep-dim-btn" data-dim="Técnica">
+        <div class="dep-dim-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="dep-dim-name">Técnica</div>
+      </div>
+      <div class="dep-dim-btn" data-dim="Reglamento">
+        <div class="dep-dim-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="dep-dim-name">Reglamento</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dep-section">
+    <div class="dep-label">Tipo de calificación</div>
+    <div class="dep-tipo-row">
+      <div class="dep-tipo-btn selected" data-tipo="numerica">Numérica (1-10)</div>
+      <div class="dep-tipo-btn" data-tipo="conceptual">Conceptual (MB/B/R/I)</div>
+    </div>
+  </div>
+
+  <div class="dep-section">
+    <div class="dep-label">Curso</div>
+    <div class="select-wrap">
+      <select id="dep-curso-select">
+        <option value="" disabled selected>— Seleccioná un curso —</option>
+        <optgroup label="Ciclo Básico">
+          <option value="1A">1° A</option><option value="1B">1° B</option>
+          <option value="2A">2° A</option><option value="2B">2° B</option>
+          <option value="3A">3° A</option><option value="3B">3° B</option>
+        </optgroup>
+        <optgroup label="Ciclo Superior — Economía">
+          <option value="4E">4° Economía</option><option value="5E">5° Economía</option><option value="6E">6° Economía</option>
+        </optgroup>
+        <optgroup label="Ciclo Superior — Sociales">
+          <option value="4S">4° Sociales</option><option value="5S">5° Sociales</option><option value="6S">6° Sociales</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="loading-box" id="dep-loading" style="display:none;"><div class="spinner"></div><p>Cargando lista...</p></div>
+  </div>
+
+  <button class="btn-primary" id="dep-btn-siguiente" disabled style="margin-top:auto;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    SELECCIONAR GRUPO
+  </button>
+</div>
+
+<!-- ══ DEPORTIVO SELECCIÓN ALUMNOS ══ -->
+<div id="screen-deportivo-alumnos">
+  <div class="sel-header">
+    <div class="sel-curso-badge" id="dep-sel-badge">—</div>
+    <div class="sel-title" id="dep-sel-title">Seleccioná el grupo</div>
+    <div class="sel-counter" id="dep-sel-counter">0 seleccionados</div>
+  </div>
+  <div class="sel-list" id="dep-sel-list"></div>
+  <div class="sel-footer">
+    <button class="btn-sel-back" id="dep-sel-back">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Volver
+    </button>
+    <button class="btn-sel-ok" id="dep-sel-ok" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      EVALUAR
+    </button>
+  </div>
+</div>
+
+<!-- ══ DEPORTIVO EVALUACIÓN ══ -->
+<div id="screen-deportivo-eval">
+  <div class="de-header">
+    <div class="de-info">
+      <div class="de-deporte-label" id="de-deporte-label">Fútbol</div>
+      <div class="de-dims-label" id="de-dims-label">Juego · Técnica</div>
+    </div>
+    <button class="btn-fin" id="dep-eval-fin" style="font-size:.85rem;padding:7px 12px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+      TERMINAR
+    </button>
+  </div>
+  <div class="de-list" id="de-eval-list"></div>
+</div>
+
+<!-- ══ DEPORTIVO RESULTADOS ══ -->
+<div id="screen-deportivo-results">
+  <div class="results-header">
+    <img class="escudo-sm" src="data:image/png;base64," alt="Escudo">
+    <div>
+      <div class="results-title" id="dep-res-title">RESULTADOS</div>
+      <div class="results-meta" id="dep-res-meta">—</div>
+    </div>
+  </div>
+  <div class="results-list" id="dep-res-list"></div>
+  <div class="results-actions">
+    <button class="btn-sec" id="dep-res-copiar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar
+    </button>
+    <button class="btn-sec az" id="dep-res-nuevo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Nueva evaluación
+    </button>
+  </div>
+</div>
 
 </div>
 
@@ -1228,11 +1475,16 @@
   function showScreen(id){
     var screens=["screen-dashboard","screen-aerobico","screen-timer-module","screen-timer-active","screen-timer-finish"];
     var aeroScreens=["screen-setup","screen-seleccion","screen-timer","screen-results"];
+    var depScreens=["screen-deportivo-setup","screen-deportivo-alumnos","screen-deportivo-eval","screen-deportivo-results"];
     screens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     aeroScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
+    depScreens.forEach(function(s){var el=gid(s);if(el)el.style.display="none";});
     // Mostrar/ocultar nav bar aeróbico
     var navAero = document.getElementById("nav-aerobico");
     if(navAero) navAero.style.display = (id==="screen-dashboard"||id==="screen-timer-module"||id==="screen-timer-active"||id==="screen-timer-finish") ? "none" : "flex";
+    // Ocultar nav deportivo cuando se usa showScreen del timer
+    var navDep = document.getElementById("nav-deportivo");
+    if(navDep) navDep.style.display = "none";
     var target=gid(id);
     if(target) target.style.display="flex";
   }
@@ -1672,6 +1924,19 @@
     showScreen("screen-dashboard");
   });
 
+  // Módulo deportivo
+  var btnGoDep = document.getElementById("btn-go-deportivo");
+  if(btnGoDep){
+    btnGoDep.addEventListener("click", function(){
+      // Ocultar todo
+      var allScreens = document.querySelectorAll("#app-wrapper > div, #app-wrapper > div[id^='screen-']");
+      allScreens.forEach(function(el){ el.style.display="none"; });
+      if(document.getElementById("nav-aerobico")) document.getElementById("nav-aerobico").style.display="none";
+      // Mostrar módulo deportivo
+      if(window.mostrarModuloDeportivo) window.mostrarModuloDeportivo();
+    });
+  }
+
   // Botón volver al dashboard desde aeróbico
   var btnBackDash = document.getElementById("btn-back-dashboard");
   if(btnBackDash){
@@ -1685,6 +1950,288 @@
 
   // Inicializar config por defecto
   renderConfig("amrap");
+
+})();
+
+</script>
+
+<script>
+
+// ══════════════════════════════════════════════════════════
+//  MÓDULO EVALUACIÓN DEPORTIVA
+// ══════════════════════════════════════════════════════════
+(function(){
+  var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
+  var SHEET_ID    = "1vOa37Jr63T8ylzFAxO1Wri-3uvAkSm4OnFG9zvS5Cgo";
+  var SHEETS_BASE = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=";
+  var SOLAPAS = {
+    "1A":"1%C2%B0 A","1B":"1%C2%B0 B","2A":"2%C2%B0 A","2B":"2%C2%B0 B",
+    "3A":"3%C2%B0 A","3B":"3%C2%B0 B","4E":"4%C2%B0 Econom%C3%ADa","4S":"4%C2%B0 Sociales",
+    "5E":"5%C2%B0 Econom%C3%ADa","5S":"5%C2%B0 Sociales","6E":"6%C2%B0 Econom%C3%ADa","6S":"6%C2%B0 Sociales"
+  };
+
+  var DIAS  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  function fechaStr(d){ return DIAS[d.getDay()]+" "+d.getDate()+" de "+MESES[d.getMonth()]+" "+d.getFullYear(); }
+  function horaStr(d) { var p=function(n){return String(n).padStart(2,"0");}; return p(d.getHours())+":"+p(d.getMinutes()); }
+
+  function gi(id){ return document.getElementById(id); }
+
+  // ── Estado ───────────────────────────────────────────────
+  var depState = {
+    deporte: "",
+    dims: [],
+    tipo: "numerica",
+    cursoKey: "",
+    listaCompleta: [],
+    alumnos: [],       // seleccionados
+    fecha: "",
+    hora: ""
+  };
+
+  // ── Mostrar/ocultar ──────────────────────────────────────
+  function showDepScreen(id){
+    var screens = ["screen-deportivo-setup","screen-deportivo-alumnos","screen-deportivo-eval","screen-deportivo-results"];
+    screens.forEach(function(s){ var el=gi(s); if(el) el.style.display="none"; });
+    var nav=gi("nav-deportivo"); if(nav) nav.style.display="flex";
+    var t=gi(id); if(t) t.style.display="flex";
+  }
+
+  // ── Selección de deporte ─────────────────────────────────
+  document.querySelectorAll(".dep-deporte-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll(".dep-deporte-btn").forEach(function(b){ b.classList.remove("selected"); });
+      btn.classList.add("selected");
+      depState.deporte = btn.dataset.deporte;
+      checkDepReady();
+    });
+  });
+
+  // ── Selección de dimensiones ─────────────────────────────
+  document.querySelectorAll(".dep-dim-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      btn.classList.toggle("selected");
+      depState.dims = [];
+      document.querySelectorAll(".dep-dim-btn.selected").forEach(function(b){
+        depState.dims.push(b.dataset.dim);
+      });
+      checkDepReady();
+    });
+  });
+
+  // ── Tipo de calificación ─────────────────────────────────
+  document.querySelectorAll(".dep-tipo-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll(".dep-tipo-btn").forEach(function(b){ b.classList.remove("selected"); });
+      btn.classList.add("selected");
+      depState.tipo = btn.dataset.tipo;
+    });
+  });
+
+  // ── Curso ────────────────────────────────────────────────
+  gi("dep-curso-select").addEventListener("change", function(){
+    depState.cursoKey = this.value;
+    depState.listaCompleta = [];
+    gi("dep-loading").style.display = "block";
+    gi("dep-btn-siguiente").disabled = true;
+
+    var url = SHEETS_BASE + SOLAPAS[depState.cursoKey] + "&range=A5:A45";
+    fetch(url)
+      .then(function(r){ return r.text(); })
+      .then(function(t){
+        gi("dep-loading").style.display = "none";
+        var json = t.replace(/^[^(]+\(/, "").replace(/\);?\s*$/, "");
+        var data = JSON.parse(json);
+        var rows = data.table ? data.table.rows : [];
+        depState.listaCompleta = [];
+        rows.forEach(function(row){
+          if(!row.c||!row.c[0]||!row.c[0].v) return;
+          var n = String(row.c[0].v).trim();
+          if(n) depState.listaCompleta.push(n);
+        });
+        checkDepReady();
+      })
+      .catch(function(){ gi("dep-loading").style.display="none"; alert("Error cargando alumnos"); });
+  });
+
+  function checkDepReady(){
+    var ok = depState.deporte && depState.dims.length > 0 && depState.listaCompleta.length > 0;
+    gi("dep-btn-siguiente").disabled = !ok;
+  }
+
+  // ── Ir a selección de alumnos ────────────────────────────
+  gi("dep-btn-siguiente").addEventListener("click", function(){
+    gi("dep-sel-badge").textContent = depState.cursoKey;
+    gi("dep-sel-title").textContent = depState.deporte;
+    var list = gi("dep-sel-list");
+    list.innerHTML = "";
+    depState.listaCompleta.forEach(function(nombre, i){
+      var card = document.createElement("div");
+      card.className = "sel-card";
+      card.dataset.nombre = nombre;
+      card.innerHTML =
+        "<div class='sel-check'><svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg></div>"+
+        "<div class='sel-name'>"+nombre+"</div>";
+      card.addEventListener("click", function(){
+        this.classList.toggle("selected");
+        actualizarDepCounter();
+      });
+      list.appendChild(card);
+    });
+    actualizarDepCounter();
+    showDepScreen("screen-deportivo-alumnos");
+  });
+
+  function actualizarDepCounter(){
+    var n = document.querySelectorAll("#dep-sel-list .sel-card.selected").length;
+    gi("dep-sel-counter").textContent = n+" seleccionado"+(n!==1?"s":"");
+    gi("dep-sel-ok").disabled = (n===0);
+  }
+
+  gi("dep-sel-back").addEventListener("click", function(){ showDepScreen("screen-deportivo-setup"); });
+
+  // ── Ir a evaluación ──────────────────────────────────────
+  gi("dep-sel-ok").addEventListener("click", function(){
+    var sel = document.querySelectorAll("#dep-sel-list .sel-card.selected");
+    depState.alumnos = [];
+    sel.forEach(function(card, i){
+      depState.alumnos.push({ id:i, nombre:card.dataset.nombre, califs:{} });
+    });
+    var ahora = new Date();
+    depState.fecha = fechaStr(ahora);
+    depState.hora  = horaStr(ahora);
+
+    gi("de-deporte-label").textContent = depState.deporte;
+    gi("de-dims-label").textContent    = depState.dims.join(" · ");
+    renderEvalList();
+    showDepScreen("screen-deportivo-eval");
+  });
+
+  function renderEvalList(){
+    var list = gi("de-eval-list");
+    list.innerHTML = "";
+    depState.alumnos.forEach(function(alumno){
+      var card = document.createElement("div");
+      card.className = "de-card";
+      var html = "<div class='de-card-name'>"+alumno.nombre+"</div>";
+      depState.dims.forEach(function(dim){
+        html += "<div class='de-dim-row'>";
+        html += "<div class='de-dim-tag'>"+dim+"</div>";
+        if(depState.tipo === "numerica"){
+          html += "<input class='de-num-input' type='text' inputmode='decimal' placeholder='—' id='cal-"+alumno.id+"-"+dim+"' maxlength='4'>";
+        } else {
+          var opts = [{k:"E",cls:"sel-e"},{k:"MB",cls:"sel-mb"},{k:"B",cls:"sel-b"},{k:"R",cls:"sel-r"},{k:"I",cls:"sel-i"}];
+          html += "<div class='de-conc-row'>";
+          opts.forEach(function(o){
+            html += "<div class='de-conc-btn' data-alumno='"+alumno.id+"' data-dim='"+dim+"' data-val='"+o.k+"'>"+o.k+"</div>";
+          });
+          html += "</div>";
+        }
+        html += "</div>";
+      });
+      card.innerHTML = html;
+      list.appendChild(card);
+    });
+
+    // Eventos botones conceptuales
+    document.querySelectorAll(".de-conc-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var aId  = this.dataset.alumno;
+        var dim  = this.dataset.dim;
+        var val  = this.dataset.val;
+        // Limpiar otros del mismo alumno+dim
+        document.querySelectorAll(".de-conc-btn[data-alumno='"+aId+"'][data-dim='"+dim+"']").forEach(function(b){
+          b.className = "de-conc-btn";
+        });
+        var clsMap = {E:"sel-e",MB:"sel-mb",B:"sel-b",R:"sel-r",I:"sel-i"};
+        this.classList.add(clsMap[val]);
+        depState.alumnos.forEach(function(a){
+          if(String(a.id)===String(aId)) a.califs[dim]=val;
+        });
+      });
+    });
+  }
+
+  // ── Terminar evaluación ──────────────────────────────────
+  gi("dep-eval-fin").addEventListener("click", function(){
+    // Recoger calificaciones numéricas
+    if(depState.tipo === "numerica"){
+      depState.alumnos.forEach(function(alumno){
+        depState.dims.forEach(function(dim){
+          var inp = gi("cal-"+alumno.id+"-"+dim);
+          if(inp) alumno.califs[dim] = inp.value || "—";
+        });
+      });
+    }
+    mostrarResultadosDepor();
+  });
+
+  function mostrarResultadosDepor(){
+    gi("dep-res-title").textContent = depState.deporte.toUpperCase();
+    gi("dep-res-meta").innerHTML =
+      "<strong>"+depState.cursoKey+"</strong> &nbsp;·&nbsp; "+depState.dims.join(" · ")+
+      "<br>"+depState.fecha+" &nbsp;·&nbsp; "+depState.hora;
+
+    var list = gi("dep-res-list");
+    list.innerHTML = "";
+    depState.alumnos.forEach(function(alumno){
+      var row = document.createElement("div");
+      row.className = "dr-row";
+      var html = "<div class='dr-name'>"+alumno.nombre+"</div><div class='dr-dims'>";
+      depState.dims.forEach(function(dim){
+        var val = alumno.califs[dim] || "—";
+        html += "<div class='dr-dim-badge'><span class='dr-dim-name'>"+dim+"</span><span class='dr-dim-val'>"+val+"</span></div>";
+      });
+      html += "</div>";
+      row.innerHTML = html;
+      list.appendChild(row);
+    });
+    showDepScreen("screen-deportivo-results");
+  }
+
+  // ── Copiar resultados ────────────────────────────────────
+  gi("dep-res-copiar").addEventListener("click", function(){
+    var txt = "INSTITUTO MARIANO MORENO\nEvaluación Deportiva · "+depState.deporte+"\n"+
+      depState.fecha+"  "+depState.hora+"\nDimensiones: "+depState.dims.join(" · ")+"\n---\n";
+    depState.alumnos.forEach(function(a){
+      txt += a.nombre;
+      depState.dims.forEach(function(dim){ txt += "  "+dim+": "+(a.califs[dim]||"—"); });
+      txt += "\n";
+    });
+    if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){alert("Copiado!");});
+    else alert(txt);
+  });
+
+  // ── Nueva evaluación ─────────────────────────────────────
+  gi("dep-res-nuevo").addEventListener("click", function(){
+    depState.deporte=""; depState.dims=[]; depState.tipo="numerica";
+    depState.cursoKey=""; depState.listaCompleta=[]; depState.alumnos=[];
+    document.querySelectorAll(".dep-deporte-btn").forEach(function(b){b.classList.remove("selected");});
+    document.querySelectorAll(".dep-dim-btn").forEach(function(b){b.classList.remove("selected");});
+    document.querySelectorAll(".dep-tipo-btn").forEach(function(b){b.classList.remove("selected");});
+    gi("dep-tipo-btn-numerica") && gi("dep-tipo-btn-numerica");
+    document.querySelector(".dep-tipo-btn[data-tipo='numerica']").classList.add("selected");
+    gi("dep-curso-select").value = "";
+    gi("dep-btn-siguiente").disabled = true;
+    showDepScreen("screen-deportivo-setup");
+  });
+
+  // ── Exponer función para el dashboard ───────────────────
+  window.mostrarModuloDeportivo = function(){
+    showDepScreen("screen-deportivo-setup");
+  };
+
+  // Botón volver al dashboard
+  var btnBackDep = gi("btn-back-dashboard-dep");
+  if(btnBackDep){
+    btnBackDep.addEventListener("click", function(){
+      var nav=gi("nav-deportivo"); if(nav) nav.style.display="none";
+      var screens=["screen-deportivo-setup","screen-deportivo-alumnos","screen-deportivo-eval","screen-deportivo-results"];
+      screens.forEach(function(s){ var el=gi(s); if(el) el.style.display="none"; });
+      // Mostrar dashboard
+      var dash=gi("screen-dashboard"); if(dash) dash.style.display="flex";
+    });
+  }
 
 })();
 
