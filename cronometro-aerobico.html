@@ -1063,6 +1063,19 @@
   <div id="res-resultados" style="display:flex;flex-direction:column;gap:12px;"></div>
 </div>
 
+
+<!-- MODAL CUATRIMESTRE -->
+<div class="overlay" id="overlay-cuatrimestre">
+  <div class="modal">
+    <div class="modal-title">¿Qué cuatrimestre?</div>
+    <div class="modal-body">Seleccioná el cuatrimestre para guardar los resultados.</div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="cuatri-1c">1° Cuatrimestre</button>
+      <button class="modal-ok" id="cuatri-2c">2° Cuatrimestre</button>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <script>
@@ -2487,10 +2500,14 @@
       });
       return { nombre:a.nombre, califs:califs };
     });
+    var overlayC = document.getElementById("overlay-cuatrimestre");
+    overlayC.classList.add("show");
+    function procederDepGuardado(cuatri){
+      overlayC.classList.remove("show");
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ action:"deportiva", curso:depState.cursoKey, fecha:depState.fecha, items:items })
+      body:JSON.stringify({ action:"deportiva", curso:depState.cursoKey, cuatrimestre:cuatri, fecha:depState.fecha, items:items })
     })
     .then(function(r){return r.json();})
     .then(function(data){
@@ -2504,6 +2521,9 @@
       }
     })
     .catch(function(){ gi("dep-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
+    }
+    document.getElementById("cuatri-1c").onclick=function(){ procederDepGuardado("1C"); };
+    document.getElementById("cuatri-2c").onclick=function(){ procederDepGuardado("2C"); };
   });
 
   gi("dep-res-copiar").addEventListener("click", function(){
@@ -2848,10 +2868,14 @@
     var items = testsState.alumnos.map(function(a){
       return { nombre:a.nombre, dato:a.dato, notaNum:a.notaNum, notaConc:a.notaConc };
     });
+    var overlayT = document.getElementById("overlay-cuatrimestre");
+    overlayT.classList.add("show");
+    function procederTestsGuardado(cuatri){
+      overlayT.classList.remove("show");
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ action:"tests", curso:testsState.cursoKey, fecha:testsState.fecha, test:testsState.test, items:items })
+      body:JSON.stringify({ action:"tests", curso:testsState.cursoKey, cuatrimestre:cuatri, fecha:testsState.fecha, test:testsState.test, items:items })
     })
     .then(function(r){return r.json();})
     .then(function(data){
@@ -2865,6 +2889,9 @@
       }
     })
     .catch(function(){ gi("tests-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
+    }
+    document.getElementById("cuatri-1c").onclick=function(){ procederTestsGuardado("1C"); };
+    document.getElementById("cuatri-2c").onclick=function(){ procederTestsGuardado("2C"); };
   });
 
   gi("tests-res-copiar").addEventListener("click", function(){
