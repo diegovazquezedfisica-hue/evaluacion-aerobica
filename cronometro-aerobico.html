@@ -1078,10 +1078,45 @@
 
 </div>
 
-<script>
-(function(){
 
-  var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
+
+
+
+
+
+
+
+
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/evaluacion-aerobica/sw.js')
+      .then(function(reg){
+        // Verificar actualizaciones
+        reg.onupdatefound = function(){
+          var worker = reg.installing;
+          worker.onstatechange = function(){
+            if(worker.state === 'activated'){
+              // Nueva versión disponible
+              if(confirm('Hay una actualización disponible. ¿Actualizar ahora?')){
+                window.location.reload();
+              }
+            }
+          };
+        };
+      })
+      .catch(function(err){ console.log('SW error:', err); });
+  });
+}
+</script>
+<script>
+// ═══════════════════════════════════════════════════════════
+//  EF · IMM — Script principal
+// ═══════════════════════════════════════════════════════════
+
+// ── Módulo Aeróbico ──────────────────────────────────────
+var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
   var SHEET_ID    = "1vOa37Jr63T8ylzFAxO1Wri-3uvAkSm4OnFG9zvS5Cgo";
   var SHEETS_BASE = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=";
 
@@ -1707,11 +1742,7 @@
     gi("btn-nuevo").addEventListener("click",newSession);
   });
 
-})();
-</script>
-
-<script>
-
+// ── Timer IMM ────────────────────────────────────────────
 // ══════════════════════════════════════════════════════════
 //  TIMER IMM
 // ══════════════════════════════════════════════════════════
@@ -2252,14 +2283,13 @@
 
 })();
 
-</script>
+// ── DOMContentLoaded ─────────────────────────────────────
+document.addEventListener("DOMContentLoaded", function(){
 
-<script>
-
+// ── Módulo Deportivo ─────────────────────────────────────
 // ══════════════════════════════════════════════════════════
 //  MÓDULO EVALUACIÓN DEPORTIVA
 // ══════════════════════════════════════════════════════════
-(function(){
   var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
   var SHEET_ID    = "1vOa37Jr63T8ylzFAxO1Wri-3uvAkSm4OnFG9zvS5Cgo";
   var SHEETS_BASE = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=";
@@ -2503,7 +2533,6 @@
     var overlayC = document.getElementById("overlay-cuatrimestre");
     overlayC.classList.add("show");
     function procederDepGuardado(cuatri){
-      overlayC.classList.remove("show");
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -2522,8 +2551,7 @@
     })
     .catch(function(){ gi("dep-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
     }
-    document.getElementById("cuatri-1c").onclick=function(){ procederDepGuardado("1C"); };
-    document.getElementById("cuatri-2c").onclick=function(){ procederDepGuardado("2C"); };
+    window.__cuatriCallback = function(c){ procederDepGuardado(c); };
   });
 
   gi("dep-res-copiar").addEventListener("click", function(){
@@ -2569,16 +2597,10 @@
     });
   }
 
-})();
-
-</script>
-
-<script>
-
+// ── Módulo Tests Físicos ─────────────────────────────────
 // ══════════════════════════════════════════════════════════
 //  MÓDULO TESTS FÍSICOS
 // ══════════════════════════════════════════════════════════
-(function(){
   var SHEET_ID    = "1vOa37Jr63T8ylzFAxO1Wri-3uvAkSm4OnFG9zvS5Cgo";
   var SHEETS_BASE = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&sheet=";
   var SOLAPAS = {
@@ -2871,7 +2893,6 @@
     var overlayT = document.getElementById("overlay-cuatrimestre");
     overlayT.classList.add("show");
     function procederTestsGuardado(cuatri){
-      overlayT.classList.remove("show");
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -2890,8 +2911,7 @@
     })
     .catch(function(){ gi("tests-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
     }
-    document.getElementById("cuatri-1c").onclick=function(){ procederTestsGuardado("1C"); };
-    document.getElementById("cuatri-2c").onclick=function(){ procederTestsGuardado("2C"); };
+    window.__cuatriCallback = function(c){ procederTestsGuardado(c); };
   });
 
   gi("tests-res-copiar").addEventListener("click", function(){
@@ -2937,16 +2957,10 @@
     showTestsScreen("screen-tests-setup");
   };
 
-})();
-
-</script>
-
-<script>
-
+// ── Módulo Resultados ────────────────────────────────────
 // ══════════════════════════════════════════════════════════
 //  MÓDULO RESULTADOS POR ALUMNO
 // ══════════════════════════════════════════════════════════
-(function(){
   var WORKER_URL = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev";
 
   function gi(id){ return document.getElementById(id); }
@@ -3106,7 +3120,7 @@
     showResScreen("screen-res-buscar");
   };
 
-})();
+}); // fin DOMContentLoaded
 
 </script>
 
@@ -3115,12 +3129,10 @@ if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
     navigator.serviceWorker.register('/evaluacion-aerobica/sw.js')
       .then(function(reg){
-        // Verificar actualizaciones
         reg.onupdatefound = function(){
           var worker = reg.installing;
           worker.onstatechange = function(){
             if(worker.state === 'activated'){
-              // Nueva versión disponible
               if(confirm('Hay una actualización disponible. ¿Actualizar ahora?')){
                 window.location.reload();
               }
