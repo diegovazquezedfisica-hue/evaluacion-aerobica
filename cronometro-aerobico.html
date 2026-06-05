@@ -14,6 +14,143 @@
 <style>
 
   :root{--azul:#1a2fa8;--azul-d:#0f1e72;--azul-pale:#dde2f8;--rojo:#cc2222;--rojo-l:#e83333;--rojo-pale:#fdeaea;--verde:#1a7a3c;--verde-pale:#e8f7ee;--verde-b:#2ea85a;--naranja:#d46000;--naranja-pale:#fff3e0;--blanco:#ffffff;--fondo:#f0f2fa;--fondo2:#e4e8f5;--borde:#c8ceea;--texto:#0f1e72;--texto-s:#4a56a0;}
+
+  /* ── TABLET 11" (768px+) ─────────────────────────────── */
+  @media (min-width: 768px) {
+    body { font-size: 18px; }
+
+    /* Header global */
+    .global-header { padding: 18px 28px; }
+    .global-header .escudo-img { width: 72px; height: 72px; }
+    .global-header .inst-nombre { font-size: 1.4rem; }
+    .global-header .inst-sub { font-size: .95rem; }
+
+    /* Dashboard */
+    .dashboard-cards { padding: 24px 28px; gap: 16px; max-width: 700px; margin: 0 auto; width: 100%; }
+    .dash-card { padding: 22px 24px; border-radius: 18px; }
+    .dash-icon { width: 60px; height: 60px; border-radius: 14px; }
+    .dash-icon svg { width: 32px; height: 32px; }
+    .dash-card-title { font-size: 1.4rem; }
+    .dash-card-sub { font-size: .95rem; margin-top: 4px; }
+
+    /* Nav bars */
+    #nav-aerobico, #nav-deportivo, #nav-tests, #nav-resultados {
+      padding: 12px 28px;
+      font-size: 1.1rem;
+    }
+
+    /* Setup screens */
+    #screen-setup, #screen-deportivo-setup, #screen-tests-setup, #screen-res-buscar {
+      padding: 28px 40px;
+      max-width: 700px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Select y inputs */
+    select, .tm-input, .te-input, .te-num-input, .de-num-input {
+      font-size: 1.2rem !important;
+      padding: 16px 18px !important;
+    }
+    .select-wrap select { font-size: 1.1rem; padding: 16px 18px; }
+    .section-title { font-size: 2rem; }
+    .section-sub { font-size: 1rem; }
+    .field-label, .dep-label, .te-dato-label, .tm-label { font-size: .9rem; }
+
+    /* Botones primarios */
+    .btn-primary, .btn-fin, .tm-start, .te-fin-btn, .dep-fin-btn {
+      font-size: 1.4rem !important;
+      padding: 18px !important;
+      border-radius: 14px !important;
+    }
+
+    /* Tarjetas de alumnos en selección */
+    .sel-card { padding: 18px 20px; border-radius: 14px; }
+    .sel-name { font-size: 1.1rem; }
+    .sel-header { padding: 16px 24px; }
+    .sel-curso-badge { font-size: 1rem; padding: 6px 16px; }
+    .sel-title { font-size: 1.1rem; }
+    .sel-counter { font-size: .95rem; }
+    .sel-footer { padding: 16px 24px; gap: 14px; }
+    .btn-sel-back, .btn-sel-ok { font-size: 1.1rem; padding: 14px 20px; }
+
+    /* Timer cronómetro aeróbico */
+    .timer-bar { padding: 14px 24px; }
+    .timer-time { font-size: 3rem; }
+    .timer-datetime { padding: 8px 24px; }
+    .timer-dt-item { font-size: .95rem; }
+    .tap-instruction { padding: 10px 24px; }
+
+    /* Cards de alumnos en cronómetro */
+    .student-card { padding: 18px 20px; border-radius: 14px; min-height: 80px; }
+    .student-name { font-size: 1.2rem; }
+    .student-status { font-size: .9rem; }
+    .student-time-main { font-size: 1.8rem; }
+    .student-time-detail { font-size: .9rem; }
+    .student-nota-badge { font-size: 1rem; }
+    #students-grid { padding: 14px 20px; gap: 12px; }
+
+    /* Timer IMM */
+    .tm-modes { padding: 14px 20px; gap: 10px; }
+    .tm-mode-btn { font-size: 1.1rem; padding: 10px 20px; }
+    .tm-config { padding: 20px 40px; max-width: 700px; margin: 0 auto; width: 100%; }
+    .ta-clock { font-size: 9rem !important; }
+    .ta-phase { font-size: 1.5rem; }
+    .ta-sub { font-size: 1.8rem; }
+    .ta-round { font-size: 2.5rem; }
+    .ta-controls { padding: 20px 40px; }
+    .ta-btn { font-size: 1.3rem; padding: 18px; }
+    .ta-stop-btn { font-size: 1.1rem; padding: 12px 20px; }
+
+    /* Deportes */
+    .dep-deportes { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .dep-deporte-btn { padding: 22px 10px; min-height: 70px; }
+    .dep-deporte-name { font-size: 1.4rem !important; }
+    .dep-dim-btn { padding: 16px 20px; border-radius: 14px; }
+    .dep-dim-name { font-size: 1.2rem; }
+    .dep-tipo-btn { font-size: 1.1rem; padding: 16px; }
+
+    /* Cards evaluación deportiva y tests */
+    .de-card, .te-card { padding: 18px 20px; border-radius: 14px; }
+    .de-card-name, .te-card-name { font-size: 1.2rem; }
+    .de-dim-tag, .te-dato-label { font-size: .9rem; }
+    .de-list, .te-list { padding: 16px 24px; gap: 14px; }
+    .de-conc-btn, .te-conc-btn { font-size: 1rem !important; padding: 10px 6px !important; }
+
+    /* Resultados */
+    .results-header { padding: 18px 24px; }
+    .results-title { font-size: 1.6rem; }
+    .results-list { padding: 16px 24px; gap: 14px; }
+    .results-actions { padding: 16px 24px; gap: 14px; }
+    .btn-sec { font-size: 1rem; padding: 14px 20px; }
+    .save-banner { padding: 14px 24px; }
+
+    /* Tests — opciones */
+    .test-opt-btn { padding: 20px 22px; border-radius: 14px; }
+    .test-opt-name { font-size: 1.2rem; }
+    .test-opt-sub { font-size: .9rem; }
+    .test-opt-icon { width: 52px; height: 52px; }
+
+    /* Cronómetro plancha */
+    .te-chrono-display { font-size: 2.2rem; padding: 10px 16px; }
+    .te-chrono-btn { font-size: 1.1rem; padding: 12px 20px; }
+
+    /* Finish screen timer */
+    .tf-title { font-size: 3.5rem; }
+    .tf-stat-val { font-size: 2.8rem; }
+    .tf-btn { font-size: 1.3rem; padding: 18px; }
+
+    /* Modal cuatrimestre */
+    .modal { padding: 32px; max-width: 480px; border-radius: 20px; }
+    .modal-title { font-size: 1.5rem; }
+    .modal-body { font-size: 1.1rem; }
+    .modal-cancel, .modal-ok { font-size: 1.1rem; padding: 14px 24px; }
+
+    /* Buscador resultados */
+    #res-buscar-input { font-size: 1.2rem; padding: 16px 18px; }
+    #res-buscar-btn { padding: 16px 22px; }
+    #res-buscar-btn svg { width: 24px; height: 24px; }
+  }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   body{background:var(--fondo);color:var(--texto);font-family:"Barlow",sans-serif;min-height:100dvh;display:flex;flex-direction:column;}
   .inst-header{background:var(--azul);padding:13px 18px;display:flex;align-items:center;gap:14px;border-bottom:4px solid var(--rojo);}
