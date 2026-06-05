@@ -1,4 +1,4 @@
-const VERSION = 'timer-imm-v2';
+const VERSION = 'timer-imm-v3';
 
 const CACHE_FILES = [
   '/evaluacion-aerobica/cronometro-aerobico.html',
@@ -30,6 +30,10 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
+  // No cachear POST ni requests externos
+  if (e.request.method !== 'GET') return;
+  if (!e.request.url.startsWith(self.location.origin)) return;
+
   e.respondWith(
     fetch(e.request)
       .then(function(response) {
