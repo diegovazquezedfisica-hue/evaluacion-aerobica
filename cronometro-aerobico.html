@@ -2651,6 +2651,12 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
   function mostrarResultadosDepor(){
+    // Resetear banner de guardado
+    var b = gi("dep-save-banner");
+    if(b){ b.className="save-banner"; }
+    var btn = gi("dep-btn-save");
+    if(btn){ btn.disabled=false; btn.textContent="Guardar"; }
+
     gi("dep-res-title").textContent = depState.deporte.toUpperCase();
     gi("dep-res-meta").innerHTML =
       "<strong>"+depState.cursoKey+"</strong> &nbsp;·&nbsp; "+depState.dims.join(" · ")+
