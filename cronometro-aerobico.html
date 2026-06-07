@@ -1834,12 +1834,14 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
         nota:         s.nota
       };
     });
+    var cuatriAero = confirm("¿Guardar en el 1° Cuatrimestre?\n\nOK = 1° Cuatrimestre\nCancelar = 2° Cuatrimestre") ? "1C" : "2C";
     fetch(WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "aerobica",
         curso: cursoKey,
+        cuatrimestre: cuatriAero,
         fecha: fechaInicioStr,
         hora: horaInicioStr,
         resultados: res
@@ -2674,6 +2676,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // ── Copiar resultados ────────────────────────────────────
   // Guardar deportiva en Sheet
   gi("dep-btn-save").addEventListener("click", function(){
+    var cuatri = confirm("¿Guardar en el 1° Cuatrimestre?\n\nOK = 1° Cuatrimestre\nCancelar = 2° Cuatrimestre") ? "1C" : "2C";
     var btn = gi("dep-btn-save");
     btn.disabled=true; btn.textContent="Guardando...";
     var items = depState.alumnos.map(function(a){
@@ -2683,9 +2686,6 @@ document.addEventListener("DOMContentLoaded", function(){
       });
       return { nombre:a.nombre, califs:califs };
     });
-    var overlayC = document.getElementById("overlay-cuatrimestre");
-    overlayC.classList.add("show");
-    function procederDepGuardado(cuatri){
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -2702,9 +2702,10 @@ document.addEventListener("DOMContentLoaded", function(){
         b.querySelector(".save-text").innerHTML="<strong>Error</strong>"+data.error;
       }
     })
-    .catch(function(){ gi("dep-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
-    }
-    window.__cuatriCallback = function(c){ procederDepGuardado(c); };
+    .catch(function(e){
+      console.error("Error guardando deportiva:", e);
+      gi("dep-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar";
+    });
   });
 
   gi("dep-res-copiar").addEventListener("click", function(){
@@ -3038,14 +3039,12 @@ document.addEventListener("DOMContentLoaded", function(){
   // ── Copiar ────────────────────────────────────────────
   // Guardar tests en Sheet
   gi("tests-btn-save").addEventListener("click", function(){
+    var cuatri = confirm("¿Guardar en el 1° Cuatrimestre?\n\nOK = 1° Cuatrimestre\nCancelar = 2° Cuatrimestre") ? "1C" : "2C";
     var btn = gi("tests-btn-save");
     btn.disabled=true; btn.textContent="Guardando...";
     var items = testsState.alumnos.map(function(a){
       return { nombre:a.nombre, dato:a.dato, notaNum:a.notaNum, notaConc:a.notaConc };
     });
-    var overlayT = document.getElementById("overlay-cuatrimestre");
-    overlayT.classList.add("show");
-    function procederTestsGuardado(cuatri){
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -3062,9 +3061,10 @@ document.addEventListener("DOMContentLoaded", function(){
         b.querySelector(".save-text").innerHTML="<strong>Error</strong>"+data.error;
       }
     })
-    .catch(function(){ gi("tests-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar"; });
-    }
-    window.__cuatriCallback = function(c){ procederTestsGuardado(c); };
+    .catch(function(e){
+      console.error("Error guardando tests:", e);
+      gi("tests-save-banner").classList.add("save-err"); btn.disabled=false; btn.textContent="Reintentar";
+    });
   });
 
   gi("tests-res-copiar").addEventListener("click", function(){
