@@ -2686,6 +2686,7 @@ document.addEventListener("DOMContentLoaded", function(){
       });
       return { nombre:a.nombre, califs:califs };
     });
+    console.log("DEP ITEMS:", JSON.stringify(items));
     fetch("https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.dev", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
