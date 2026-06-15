@@ -1242,6 +1242,39 @@
 
 
 <script>
+
+// ── Wake Lock — mantener pantalla encendida ───────────────
+(function(){
+  var wakeLock = null;
+
+  async function requestWakeLock() {
+    if ('wakeLock' in navigator) {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake Lock activo');
+        wakeLock.addEventListener('release', function() {
+          console.log('Wake Lock liberado');
+        });
+      } catch(err) {
+        console.log('Wake Lock error:', err.message);
+      }
+    }
+  }
+
+  // Reactivar si la pantalla vuelve a estar visible
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+      requestWakeLock();
+    }
+  });
+
+  // Activar al cargar
+  requestWakeLock();
+})();
+
+</script>
+
+<script>
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
     navigator.serviceWorker.register('/evaluacion-aerobica/sw.js')
