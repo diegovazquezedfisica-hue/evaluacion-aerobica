@@ -1335,17 +1335,31 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
   function fechaStr(d){return DIAS[d.getDay()]+" "+d.getDate()+" de "+MESES[d.getMonth()]+" "+d.getFullYear();}
   function horaStr(d){return pad(d.getHours())+":"+pad(d.getMinutes());}
 
+  var CAMINA_MAX   = 70;  // 1:10 — mas de esto es desaprobado
+  var CAMINA_PENAL = 60;  // 1:00 — mas de esto resta 1 punto
+
   function calcNota(tTrote, tCamina, e){
-    // Si caminata < 1 min → usar tiempo total
-    // Si caminata >= 1 min → usar solo tiempo de trote
-    var tEfectivo = (tCamina < CAMINA_LIMITE) ? (tTrote + tCamina) : tTrote;
+    // Calcular nota base solo por tiempo de trote
     var n;
-    if(tEfectivo >= e.min10) n=10;
-    else if(tEfectivo >= e.min7) n=7+(tEfectivo-e.min7)/(e.min10-e.min7)*3;
-    else if(tEfectivo > 0) n=1+(tEfectivo/e.min7)*5;
+    if(tTrote >= e.min10) n=10;
+    else if(tTrote >= e.min7) n=7+(tTrote-e.min7)/(e.min10-e.min7)*3;
+    else if(tTrote > 0) n=1+(tTrote/e.min7)*5;
     else n=1;
     n=Math.round(n*2)/2;
-    return Math.min(10,Math.max(1,n));
+    n=Math.min(10,Math.max(1,n));
+
+    // Penalización por caminata
+    if(tCamina > CAMINA_MAX){
+      // Mas de 1:10 → desaprobado (nota calculada por trote pero max 3)
+      n = Math.min(n, 3);
+    } else if(tCamina > CAMINA_PENAL){
+      // Entre 1:00 y 1:10 → margen, sin penalización
+    } else if(tCamina > 0){
+      // Camino algo (≤ 1:00) → restar 1 punto, mínimo 1
+      n = Math.max(1, n - 1);
+    }
+
+    return n;
   }
   function nc(n){return n>=7?"a":n>=4?"v":"b";}
   function notaStr(n){return n%1===0?String(n):String(n).replace(".",",");}
