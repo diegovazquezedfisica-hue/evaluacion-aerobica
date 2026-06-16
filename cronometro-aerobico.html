@@ -1334,10 +1334,20 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     } catch(e){}
   }
   function beepInicio(){
-    // Beep largo de inicio igual al de fin
-    beepAero(880, 0.1, 0.7);
-    setTimeout(function(){ beepAero(880, 0.1, 0.7); }, 200);
-    setTimeout(function(){ beepAero(1100, 1.5, 0.9); }, 400);
+    // BEEEEP largo sostenido
+    try{
+      var ctx = getAeroAudio();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      osc.type = "square";
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + 1.8);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.0);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 2.0);
+    } catch(e){}
   }
   function beepAprobacion(){
     // Doble beep al llegar al tiempo de aprobación
@@ -1633,10 +1643,20 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     } catch(e){}
   }
   function beepInicio(){
-    // Beep largo de inicio igual al de fin
-    beepAero(880, 0.1, 0.7);
-    setTimeout(function(){ beepAero(880, 0.1, 0.7); }, 200);
-    setTimeout(function(){ beepAero(1100, 1.5, 0.9); }, 400);
+    // BEEEEP largo sostenido
+    try{
+      var ctx = getAeroAudio();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      osc.type = "square";
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + 1.8);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.0);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 2.0);
+    } catch(e){}
   }
   function beepAprobacion(){
     // Doble beep al llegar al tiempo de aprobación
