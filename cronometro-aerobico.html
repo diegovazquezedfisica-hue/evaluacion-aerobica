@@ -1334,10 +1334,10 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     } catch(e){}
   }
   function beepInicio(){
-    // Beep fuerte de inicio — tono ascendente
-    beepAero(660, 0.15, 0.7);
-    setTimeout(function(){ beepAero(880, 0.15, 0.7); }, 180);
-    setTimeout(function(){ beepAero(1100, 0.5, 0.9); }, 360);
+    // Beep largo de inicio igual al de fin
+    beepAero(880, 0.1, 0.7);
+    setTimeout(function(){ beepAero(880, 0.1, 0.7); }, 200);
+    setTimeout(function(){ beepAero(1100, 1.5, 0.9); }, 400);
   }
   function beepAprobacion(){
     // Doble beep al llegar al tiempo de aprobación
@@ -1633,10 +1633,10 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     } catch(e){}
   }
   function beepInicio(){
-    // Beep fuerte de inicio — tono ascendente
-    beepAero(660, 0.15, 0.7);
-    setTimeout(function(){ beepAero(880, 0.15, 0.7); }, 180);
-    setTimeout(function(){ beepAero(1100, 0.5, 0.9); }, 360);
+    // Beep largo de inicio igual al de fin
+    beepAero(880, 0.1, 0.7);
+    setTimeout(function(){ beepAero(880, 0.1, 0.7); }, 200);
+    setTimeout(function(){ beepAero(1100, 1.5, 0.9); }, 400);
   }
   function beepAprobacion(){
     // Doble beep al llegar al tiempo de aprobación
