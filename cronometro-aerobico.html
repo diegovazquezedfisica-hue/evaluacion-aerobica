@@ -1353,16 +1353,22 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     if(tCamina > CAMINA_MAX){
       // Camino mas de 1:10
       if(yaAprobo){
-        // Llego al minimo → nota por trote pero max 6
+        // Llego al minimo de trote → nota por trote pero max 6
         n = Math.min(n, 6);
-      } else {
-        // No llego al minimo → nota por trote sin cambio (ya es baja)
       }
+      // Si no llego al minimo → nota por trote sin cambio (ya es baja)
     } else if(tCamina > CAMINA_PENAL){
       // Entre 1:00 y 1:10 → margen, sin penalizacion
     } else if(tCamina > 0){
-      // Camino algo (≤ 1:00) → restar 1 punto, minimo 1
-      n = Math.max(1, n - 1);
+      // Camino algo (≤ 1:00)
+      if(yaAprobo){
+        // Si ya alcanzó el mínimo con el trote → no se penaliza el 7
+        // Solo se penaliza si la nota era mayor a 7
+        if(n > 7) n = Math.max(7, n - 1);
+      } else {
+        // No llegó al mínimo → restar 1 punto
+        n = Math.max(1, n - 1);
+      }
     }
 
     return n;
@@ -1551,7 +1557,49 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     // Primero render, después arrancar — así inicioTrote=0 coincide con secs=0
     renderStudents();
     hide("screen-seleccion");show("screen-timer");
-    // Funcion de voz
+    // Beep aeróbico con Web Audio API
+  var aeroAudioCtx = null;
+  function getAeroAudio(){
+    if(!aeroAudioCtx) aeroAudioCtx = new(window.AudioContext||window.webkitAudioContext)();
+    return aeroAudioCtx;
+  }
+  function beepAero(freq, dur, vol){
+    try{
+      var ctx = getAeroAudio();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = "sine";
+      gain.gain.setValueAtTime(vol||0.6, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime+dur);
+    } catch(e){}
+  }
+  function beepInicio(){
+    // Beep fuerte de inicio — tono ascendente
+    beepAero(660, 0.15, 0.7);
+    setTimeout(function(){ beepAero(880, 0.15, 0.7); }, 180);
+    setTimeout(function(){ beepAero(1100, 0.5, 0.9); }, 360);
+  }
+  function beepAprobacion(){
+    // Doble beep al llegar al tiempo de aprobación
+    beepAero(880, 0.2, 0.7);
+    setTimeout(function(){ beepAero(880, 0.2, 0.7); }, 300);
+  }
+  function beepCountdownAero(){
+    // Beep corto para la cuenta regresiva
+    beepAero(660, 0.1, 0.5);
+  }
+  function beepFin(){
+    // Beep largo de fin
+    beepAero(440, 0.1, 0.6);
+    setTimeout(function(){ beepAero(440, 0.1, 0.6); }, 200);
+    setTimeout(function(){ beepAero(330, 1.2, 0.8); }, 400);
+  }
+
+  // Funcion de voz
   function hablar(texto){
     if(!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
@@ -1575,17 +1623,18 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
         if(tMax > 0){
           var resta = tMax - secs;
           // Aviso al alcanzar el tiempo de aprobación
-          if(secs === tAprob) hablar("Tiempo de aprobación alcanzado");
+          if(secs === tAprob){ beepAprobacion(); hablar("Tiempo de aprobación alcanzado"); }
           // Último minuto
-          if(resta === 60) hablar("Último minuto");
+          if(resta === 60){ beepAero(660, 0.3, 0.6); hablar("Último minuto"); }
           // Cuenta regresiva final
-          if(resta <= 10 && resta > 0) hablar(String(resta));
+          if(resta <= 10 && resta > 0){ beepCountdownAero(); hablar(String(resta)); }
           // Fin del test
           if(resta === 0){
             clearInterval(interval);
             interval = null;
-            hablar("Test finalizado");
-            setTimeout(function(){ finishSession(); }, 800);
+            beepFin();
+            setTimeout(function(){ hablar("Test finalizado"); }, 400);
+            setTimeout(function(){ finishSession(); }, 1200);
           }
         }
 
