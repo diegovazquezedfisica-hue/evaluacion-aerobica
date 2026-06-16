@@ -1578,6 +1578,8 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
   gi("btn-sel-back").addEventListener("click",function(){hide("screen-seleccion");show("screen-setup");});
 
   gi("btn-sel-ok").addEventListener("click",function(){
+    // Activar audio en el mismo gesto del usuario
+    beepInicio();
     var sel=document.querySelectorAll(".sel-card.selected");
     students=[];
     sel.forEach(function(card,i){
