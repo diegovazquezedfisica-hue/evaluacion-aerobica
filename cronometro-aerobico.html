@@ -1551,12 +1551,39 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     // Primero render, después arrancar — así inicioTrote=0 coincide con secs=0
     renderStudents();
     hide("screen-seleccion");show("screen-timer");
-    // Pequeño delay para asegurar que todo está listo antes de arrancar
+    // Funcion de voz
+  function hablar(texto){
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(texto);
+    u.lang = "es-AR";
+    u.rate = 0.9;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  }
+
+  // Pequeño delay para asegurar que todo está listo antes de arrancar
     setTimeout(function(){
       interval=setInterval(function(){
         secs++;
         gi("global-clock").textContent=fmt(secs);
         updateCards();
+
+        // Avisos de voz y fin automático según el tiempo máximo del curso
+        var tMax = escala ? escala.min10 : 0;
+        if(tMax > 0){
+          var resta = tMax - secs;
+          if(resta === 60) hablar("Último minuto");
+          if(resta <= 10 && resta > 0) hablar(String(resta));
+          if(resta === 0){
+            hablar("Test finalizado");
+            // Detener cronómetro y finalizar sesión automáticamente
+            clearInterval(interval);
+            interval = null;
+            setTimeout(function(){ finishSession(); }, 1500);
+          }
+        }
+
       },1000);
     },50);
   });
