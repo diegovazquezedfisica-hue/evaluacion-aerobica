@@ -1313,6 +1313,59 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
     "5E":"5%C2%B0 Econom%C3%ADa","5S":"5%C2%B0 Sociales","6E":"6%C2%B0 Econom%C3%ADa","6S":"6%C2%B0 Sociales"
   };
 
+  // Beep aeróbico con Web Audio API
+  var aeroAudioCtx = null;
+  function getAeroAudio(){
+    if(!aeroAudioCtx) aeroAudioCtx = new(window.AudioContext||window.webkitAudioContext)();
+    return aeroAudioCtx;
+  }
+  function beepAero(freq, dur, vol){
+    try{
+      var ctx = getAeroAudio();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = "sine";
+      gain.gain.setValueAtTime(vol||0.6, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime+dur);
+    } catch(e){}
+  }
+  function beepInicio(){
+    // Beep fuerte de inicio — tono ascendente
+    beepAero(660, 0.15, 0.7);
+    setTimeout(function(){ beepAero(880, 0.15, 0.7); }, 180);
+    setTimeout(function(){ beepAero(1100, 0.5, 0.9); }, 360);
+  }
+  function beepAprobacion(){
+    // Doble beep al llegar al tiempo de aprobación
+    beepAero(880, 0.2, 0.7);
+    setTimeout(function(){ beepAero(880, 0.2, 0.7); }, 300);
+  }
+  function beepCountdownAero(){
+    // Beep corto para la cuenta regresiva
+    beepAero(660, 0.1, 0.5);
+  }
+  function beepFin(){
+    // Beep largo de fin
+    beepAero(440, 0.1, 0.6);
+    setTimeout(function(){ beepAero(440, 0.1, 0.6); }, 200);
+    setTimeout(function(){ beepAero(330, 1.2, 0.8); }, 400);
+  }
+
+  // Funcion de voz
+  function hablar(texto){
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(texto);
+    u.lang = "es-AR";
+    u.rate = 0.9;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  }
+
   var ESCALAS={
     "1A":{label:"1 A",min7:360,min10:540,desc:"6 min = 7  |  9 min = 10"},
     "1B":{label:"1 B",min7:360,min10:540,desc:"6 min = 7  |  9 min = 10"},
