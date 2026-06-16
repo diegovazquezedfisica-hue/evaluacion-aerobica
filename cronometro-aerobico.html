@@ -1570,17 +1570,22 @@ var WORKER_URL  = "https://evaluacion-aerobica.diegovazquez-ed-fisica.workers.de
         updateCards();
 
         // Avisos de voz y fin automático según el tiempo máximo del curso
-        var tMax = escala ? escala.min10 : 0;
+        var tMax  = escala ? escala.min10 : 0;
+        var tAprob = escala ? escala.min7  : 0;
         if(tMax > 0){
           var resta = tMax - secs;
+          // Aviso al alcanzar el tiempo de aprobación
+          if(secs === tAprob) hablar("Tiempo de aprobación alcanzado");
+          // Último minuto
           if(resta === 60) hablar("Último minuto");
+          // Cuenta regresiva final
           if(resta <= 10 && resta > 0) hablar(String(resta));
+          // Fin del test
           if(resta === 0){
-            hablar("Test finalizado");
-            // Detener cronómetro y finalizar sesión automáticamente
             clearInterval(interval);
             interval = null;
-            setTimeout(function(){ finishSession(); }, 1500);
+            hablar("Test finalizado");
+            setTimeout(function(){ finishSession(); }, 800);
           }
         }
 
